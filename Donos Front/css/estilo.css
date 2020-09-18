@@ -1,0 +1,70 @@
+* {
+  margin: 0px;
+  padding: 5px;
+  font-family: Arial;
+ 
+}
+
+div.principal {
+  background-color: #4876FF;
+  width: : 1200px;
+  margin: 50px;
+  margin-top: 20px;
+  padding: 60px;
+  border-radius: 100px;
+  
+}
+
+/*nome*/
+header {
+  background-color: #fff;
+  width : 48px;
+  height: 20px;
+  float: left;
+  margin-left: 10px;
+  border-radius: 20px;
+}
+
+/*telefone*/
+nav {
+  background-color: #fff;
+  width : 85px;
+  margin=top: 10px;
+  height: 20px;
+  float: left;
+  margin-left: 250px;
+  border-radius: 20px;
+}
+
+/*e-mail*/
+section {
+  background-color: #fff;
+  width : 55px;
+  margin=top: 10px;
+  height: 20px;
+  float: left;
+  margin-left: 40px;
+  border-radius: 20px;
+}
+
+/*nome dos pets*/
+aside {
+  background-color: #fff;
+  width : 135px;
+  margin=top: 10px;
+  height: 20px;
+  float: left;
+  margin-left: 200px;
+  border-radius: 20px;
+}
+
+/*rg*/
+footer {
+  background-color: #fff;
+  width : 25px;
+  margin=top: 10px;
+  height: 20px;
+  float: left;
+  margin-left: 100px;
+  border-radius: 20px;
+}
