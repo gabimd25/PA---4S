@@ -29,7 +29,7 @@ public class TelaAgenda extends javax.swing.JFrame {
 
         Editar = new javax.swing.JLabel();
         Novo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        setinha = new javax.swing.JLabel();
         BtEditar = new javax.swing.JLabel();
         BtNovo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -47,13 +47,13 @@ public class TelaAgenda extends javax.swing.JFrame {
         Novo.setText("Novo Atendimento");
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 210, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
+        setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                setinhaMouseClicked(evt);
             }
         });
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+        getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         BtEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
@@ -102,11 +102,11 @@ public class TelaAgenda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
         TelaPrincipal Principal = new TelaPrincipal();
         Principal.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_setinhaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -149,8 +149,8 @@ public class TelaAgenda extends javax.swing.JFrame {
     private javax.swing.JLabel Editar;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel setinha;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,7 @@
  */
 package View;
 
-import View.Cadastro.FornCadastro;
+import View.Cadastro.DonoCadastro;
 import View.Cadastro.FornEditar;
 import dao.Conexao;
 import java.awt.Color;
@@ -19,12 +19,12 @@ import java.util.logging.Logger;
  *
  * @author Gabim
  */
-public class TelaFornecedores extends javax.swing.JFrame {
+public class TelaDonos extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaFornecedores
      */
-    public TelaFornecedores() {
+    public TelaDonos() {
         initComponents();
     }
 
@@ -40,7 +40,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         FornSelecionado = new javax.swing.JTextPane();
-        ProcuraForn = new javax.swing.JTextField();
+        ProcuraDono = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         Editar = new javax.swing.JLabel();
@@ -67,34 +67,34 @@ public class TelaFornecedores extends javax.swing.JFrame {
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
         FornSelecionado.setEditable(false);
-        FornSelecionado.setText("Fornecedor Selecionado");
+        FornSelecionado.setText("Dono Selecionado");
         jScrollPane1.setViewportView(FornSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
-        ProcuraForn.addActionListener(new java.awt.event.ActionListener() {
+        ProcuraDono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcuraFornActionPerformed(evt);
+                ProcuraDonoActionPerformed(evt);
             }
         });
-        getContentPane().add(ProcuraForn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
+        getContentPane().add(ProcuraDono, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
 
         tabela.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Telefone", "Email"
+                "ID", "Nome", "Telefone", "Email", "Nome do Pet", "RG"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -171,9 +171,9 @@ public class TelaFornecedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-        String fornecedor;
-        fornecedor = ProcuraForn.getText();
-        System.out.println(fornecedor);
+        String dono;
+        dono = ProcuraDono.getText();
+        System.out.println(dono);
        // TabelaForn();
     }//GEN-LAST:event_lupaMouseClicked
 
@@ -184,45 +184,23 @@ public class TelaFornecedores extends javax.swing.JFrame {
     }//GEN-LAST:event_setinhaMouseClicked
 
     private void ContatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContatarMouseClicked
-        try {
-            Connection conexao = new Conexao().getConnection();
-            System.out.println("Iniciando comando!!!!");
-            String sql = "insert into dbo.Fornecedor(ForNome,ForTel,Foremail) values('LuArtes','323287898','lulu@hotmail.com');";
-            //insert into dbo.Fornecedor(ForNome,ForTel,Foremail) values('LuArtes','323287898','lulu@hotmail.com');
-            PreparedStatement statement = conexao.prepareStatement(sql);
-            statement.execute();
-            
-            statement.close();
-            conexao.close();
-        } catch (SQLException ex) {
-            System.out.println("Fornecedores1");
-            Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Fornecedores2");
-        }
+     //comando para enviar email para o fornecedor
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        if(FornSelecionado.getText()!="Fornecedor Selecionado"){
-           FornEditar novo = new FornEditar();
-            novo.setVisible(true); 
-        }
-        else{
-            System.out.println("Escolha um fornecedor!");
-        }
-        
+        FornEditar novo = new FornEditar();
+        novo.setVisible(true);
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
-        FornCadastro novo = new FornCadastro();
+        DonoCadastro novo = new DonoCadastro();
         novo.setVisible(true);
     }//GEN-LAST:event_NovoMouseClicked
 
-    private void ProcuraFornActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraFornActionPerformed
+    private void ProcuraDonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraDonoActionPerformed
         // TODO add your handling code here:
          
-    }//GEN-LAST:event_ProcuraFornActionPerformed
+    }//GEN-LAST:event_ProcuraDonoActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // TODO add your handling code here:
@@ -251,20 +229,21 @@ public class TelaFornecedores extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaFornecedores().setVisible(true);
+                new TelaDonos().setVisible(true);
             }
         });
     }
@@ -275,7 +254,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
     private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
-    private javax.swing.JTextField ProcuraForn;
+    private javax.swing.JTextField ProcuraDono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;

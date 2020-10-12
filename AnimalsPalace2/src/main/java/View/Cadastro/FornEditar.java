@@ -5,7 +5,7 @@
  */
 
 package View.Cadastro;
-
+import View.TelaFornecedores;
 /**
  *
  * @author Gabim
@@ -34,7 +34,8 @@ public class FornEditar extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        Cancelar = new javax.swing.JButton();
+        Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -59,7 +60,7 @@ public class FornEditar extends javax.swing.JFrame {
                 BExcluirActionPerformed(evt);
             }
         });
-        getContentPane().add(BExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 120, 40));
+        getContentPane().add(BExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 120, 40));
 
         BtEditar.setBackground(new java.awt.Color(204, 204, 255));
         BtEditar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -69,7 +70,7 @@ public class FornEditar extends javax.swing.JFrame {
                 BtEditarActionPerformed(evt);
             }
         });
-        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 110, 40));
+        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 110, 40));
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -88,8 +89,18 @@ public class FornEditar extends javax.swing.JFrame {
         jTextField3.setText("Fornecedor Selecionado");
         getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
+        Cancelar.setBackground(new java.awt.Color(204, 204, 255));
+        Cancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 22)); // NOI18N
+        Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 110, 40));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -99,13 +110,18 @@ public class FornEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
-        // TODO add your handling code here:
-        //
+        String tel=jTextField1.getText();
+        String email=jTextField2.getText();
+        //EditarForn(forn,tel,email);
     }//GEN-LAST:event_BtEditarActionPerformed
 
     private void BExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BExcluirActionPerformed
         dispose();
     }//GEN-LAST:event_BExcluirActionPerformed
+
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_CancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,10 +162,11 @@ public class FornEditar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BExcluir;
     private javax.swing.JButton BtEditar;
+    private javax.swing.JButton Cancelar;
     private javax.swing.JLabel Eml;
+    private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
     private javax.swing.JLabel Tl;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

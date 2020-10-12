@@ -28,7 +28,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        Logo = new javax.swing.JLabel();
         Donos = new javax.swing.JLabel();
         Pets = new javax.swing.JLabel();
         Agenda = new javax.swing.JLabel();
@@ -36,8 +36,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Fornecedores = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         Funcionarios = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        DataeHora = new javax.swing.JLabel();
+        Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -73,17 +73,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 580, 280));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\LogoMenor.png")); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, -1, -1));
+        Logo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\LogoMenor.png")); // NOI18N
+        getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, -1, -1));
 
         Donos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         Donos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Donos.setText("| Donos |");
+        Donos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DonosMouseClicked(evt);
+            }
+        });
         getContentPane().add(Donos, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, -1, 40));
 
         Pets.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         Pets.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Pets.setText("Pets |");
+        Pets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PetsMouseClicked(evt);
+            }
+        });
         getContentPane().add(Pets, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, 40));
 
         Agenda.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
@@ -118,14 +128,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Funcionarios.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         Funcionarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Funcionarios.setText("Funcionários |");
+        Funcionarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FuncionariosMouseClicked(evt);
+            }
+        });
         getContentPane().add(Funcionarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, -1, 40));
 
-        jLabel3.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        jLabel3.setText("Data e Hora");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 550, 180, 60));
+        DataeHora.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        DataeHora.setText("Data e Hora");
+        getContentPane().add(DataeHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 550, 180, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
+        getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -141,6 +156,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Agenda.setVisible(true);
         dispose();
     }//GEN-LAST:event_AgendaMouseClicked
+
+    private void PetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PetsMouseClicked
+        TelaPets Pets = new TelaPets();
+        Pets.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_PetsMouseClicked
+
+    private void DonosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DonosMouseClicked
+        TelaDonos Donos = new TelaDonos();
+        Donos.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_DonosMouseClicked
+
+    private void FuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FuncionariosMouseClicked
+        TelaFuncionarios Func = new TelaFuncionarios();
+        Func.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_FuncionariosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -179,15 +212,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Agenda;
+    private javax.swing.JLabel DataeHora;
     private javax.swing.JLabel Donos;
     private javax.swing.JLabel Fornecedores;
     private javax.swing.JLabel Funcionarios;
+    private javax.swing.JLabel Fundo;
+    private javax.swing.JLabel Logo;
     private javax.swing.JLabel Pets;
     private javax.swing.JLabel Produtos;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

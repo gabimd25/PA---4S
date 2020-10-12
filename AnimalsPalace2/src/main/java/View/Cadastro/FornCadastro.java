@@ -5,7 +5,7 @@
  */
 
 package View.Cadastro;
-
+import Model.Fornecedores;
 /**
  *
  * @author Gabim
@@ -29,12 +29,12 @@ public class FornCadastro extends javax.swing.JFrame {
         Nm = new javax.swing.JLabel();
         Tl = new javax.swing.JLabel();
         Eml = new javax.swing.JLabel();
-        BtCancelar = new javax.swing.JButton();
-        BtSalvar1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        BtSair = new javax.swing.JButton();
+        BtSalvar = new javax.swing.JButton();
+        Telefone = new javax.swing.JTextField();
+        Email = new javax.swing.JTextField();
+        Nome = new javax.swing.JTextField();
+        Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -51,59 +51,70 @@ public class FornCadastro extends javax.swing.JFrame {
         Eml.setText("Email");
         getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 80, 40));
 
-        BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
-        BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
-        BtCancelar.setText("Cancelar");
-        BtCancelar.addActionListener(new java.awt.event.ActionListener() {
+        BtSair.setBackground(new java.awt.Color(204, 204, 255));
+        BtSair.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
+        BtSair.setText("Sair");
+        BtSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtCancelarActionPerformed(evt);
+                BtSairActionPerformed(evt);
             }
         });
-        getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 120, 40));
+        getContentPane().add(BtSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 120, 40));
 
-        BtSalvar1.setBackground(new java.awt.Color(204, 204, 255));
-        BtSalvar1.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
-        BtSalvar1.setText("Salvar");
-        BtSalvar1.addActionListener(new java.awt.event.ActionListener() {
+        BtSalvar.setBackground(new java.awt.Color(204, 204, 255));
+        BtSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
+        BtSalvar.setText("Salvar");
+        BtSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtSalvar1ActionPerformed(evt);
+                BtSalvarActionPerformed(evt);
             }
         });
-        getContentPane().add(BtSalvar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 110, 40));
+        getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 110, 40));
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        Telefone.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        Telefone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                TelefoneActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 190, 30));
+        getContentPane().add(Telefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 190, 30));
 
-        jTextField2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 390, 30));
+        Email.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Email.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 390, 30));
 
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
+        Nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        Nome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NomeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void TelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefoneActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_TelefoneActionPerformed
 
-    private void BtSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvar1ActionPerformed
-        // TODO add your handling code here:
-        //
-    }//GEN-LAST:event_BtSalvar1ActionPerformed
+    private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
+        String nome = Nome.getText();
+        String tel=Telefone.getText();
+        String email=Email.getText();
+        new Fornecedores().SalvarForn(nome,tel,email);
+    }//GEN-LAST:event_BtSalvarActionPerformed
 
-    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
+    private void BtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSairActionPerformed
         dispose();
-    }//GEN-LAST:event_BtCancelarActionPerformed
+    }//GEN-LAST:event_BtSairActionPerformed
+
+    private void NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,6 +142,9 @@ public class FornCadastro extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FornCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -141,15 +155,15 @@ public class FornCadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtCancelar;
-    private javax.swing.JButton BtSalvar1;
+    private javax.swing.JButton BtSair;
+    private javax.swing.JButton BtSalvar;
+    private javax.swing.JTextField Email;
     private javax.swing.JLabel Eml;
+    private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
+    private javax.swing.JTextField Nome;
+    private javax.swing.JTextField Telefone;
     private javax.swing.JLabel Tl;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
 }

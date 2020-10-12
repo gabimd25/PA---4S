@@ -5,7 +5,7 @@
  */
 package View;
 
-import View.Cadastro.FornCadastro;
+import View.Cadastro.DonoCadastro;
 import View.Cadastro.FornEditar;
 import dao.Conexao;
 import java.awt.Color;
@@ -19,12 +19,12 @@ import java.util.logging.Logger;
  *
  * @author Gabim
  */
-public class TelaFornecedores extends javax.swing.JFrame {
+public class TelaFuncionarios extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaFornecedores
      */
-    public TelaFornecedores() {
+    public TelaFuncionarios() {
         initComponents();
     }
 
@@ -67,7 +67,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
         FornSelecionado.setEditable(false);
-        FornSelecionado.setText("Fornecedor Selecionado");
+        FornSelecionado.setText("Funcionário Selecionado");
         jScrollPane1.setViewportView(FornSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
@@ -82,19 +82,19 @@ public class TelaFornecedores extends javax.swing.JFrame {
         tabela.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Telefone", "Email"
+                "ID", "Nome", "Telefone", "RG", "Endereço", "CT", "Função"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -196,26 +196,20 @@ public class TelaFornecedores extends javax.swing.JFrame {
             conexao.close();
         } catch (SQLException ex) {
             System.out.println("Fornecedores1");
-            Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaFuncionarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaFuncionarios.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Fornecedores2");
         }
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        if(FornSelecionado.getText()!="Fornecedor Selecionado"){
-           FornEditar novo = new FornEditar();
-            novo.setVisible(true); 
-        }
-        else{
-            System.out.println("Escolha um fornecedor!");
-        }
-        
+        FornEditar novo = new FornEditar();
+        novo.setVisible(true);
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
-        FornCadastro novo = new FornCadastro();
+        DonoCadastro novo = new DonoCadastro();
         novo.setVisible(true);
     }//GEN-LAST:event_NovoMouseClicked
 
@@ -251,20 +245,21 @@ public class TelaFornecedores extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaFuncionarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaFuncionarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaFuncionarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaFuncionarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaFornecedores().setVisible(true);
+                new TelaFuncionarios().setVisible(true);
             }
         });
     }
