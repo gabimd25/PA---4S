@@ -5,6 +5,20 @@
  */
 package View;
 
+import dao.Conexao;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gabim
@@ -16,8 +30,43 @@ public class TelaAgenda extends javax.swing.JFrame {
      */
     public TelaAgenda() {
         initComponents();
+        mostra_agenda();
     }
 
+   public ArrayList<Agen> agenList(){
+        ArrayList<Agen> agendaList = new ArrayList<>();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String query3 = "SELECT Agenda.AgendaDia, Agenda.AgendaHora, Agenda.AgendaCliID, Agenda.AgendaPetID, Agenda.Servico, Cliente.CliID, Cliente.CliNome, Pet.PetCliID, Pet.PetNome FROM Agenda, Cliente, Pet WHERE Agenda.AgendaCliID = Cliente.CliID AND Agenda.AgendaPetID = Pet.PetCliID";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query3);
+            Agen agenda;
+            while(rs.next()){
+                agenda = new Agen(rs.getString("AgendaDia"), rs.getString("AgendaHora"), rs.getString("CliNome"), rs.getString("PetNome"),  rs.getString("Servico"));
+                agendaList.add(agenda);
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+        return agendaList;
+    }
+   
+    public void mostra_agenda(){
+        ArrayList<Agen> list = agenList();
+        DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Agenda.getModel();
+        Object[] row = new Object[4];
+        for(int i=0; i<list.size(); i++){
+            row[0] = list.get(i).getAgendaDia() + " " +list.get(i).getAgendaHora();
+            row[1] = list.get(i).getCliNome();
+            row[2] = list.get(i).getPetNome();
+            row[3] = list.get(i).getServico();
+            model.addRow(row);
+        }
+    }
+           
+           
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +82,7 @@ public class TelaAgenda extends javax.swing.JFrame {
         BtEditar = new javax.swing.JLabel();
         BtNovo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabela_Mostra_Agenda = new javax.swing.JTable();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -47,7 +96,6 @@ public class TelaAgenda extends javax.swing.JFrame {
         Novo.setText("Novo Atendimento");
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 210, 40));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
@@ -56,47 +104,26 @@ public class TelaAgenda extends javax.swing.JFrame {
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         BtEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
         BtEditar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 260, 100));
 
         BtNovo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
         BtNovo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 260, 100));
 
-        jTable1.setFont(new java.awt.Font("Baskerville Old Face", 0, 20)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabela_Mostra_Agenda.setFont(new java.awt.Font("Baskerville Old Face", 0, 20)); // NOI18N
+        jTabela_Mostra_Agenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Horário", "Dono", "Pet", "Tipo de Serviço"
             }
         ));
-        jTable1.setRowHeight(25);
-        jScrollPane1.setViewportView(jTable1);
+        jTabela_Mostra_Agenda.setRowHeight(25);
+        jScrollPane1.setViewportView(jTabela_Mostra_Agenda);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 910, -1));
-
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1011, -1));
 
         pack();
@@ -150,7 +177,7 @@ public class TelaAgenda extends javax.swing.JFrame {
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabela_Mostra_Agenda;
     private javax.swing.JLabel setinha;
     // End of variables declaration//GEN-END:variables
 }

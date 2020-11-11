@@ -10,10 +10,16 @@ import View.Cadastro.FornEditar;
 import dao.Conexao;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,6 +32,43 @@ public class TelaPets extends javax.swing.JFrame {
      */
     public TelaPets() {
         initComponents();
+        mostra_pets();
+    }
+    
+    public ArrayList<Pet> petList(){
+        ArrayList<Pet> petsList = new ArrayList<>();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String query5 = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query5);
+            Pet pets;
+            while(rs.next()){
+                pets = new Pet(rs.getInt("PetID"), rs.getString("PetNome"), rs.getString("PetEsp"), rs.getString("Petraca"), rs.getString("PetSexo"), rs.getString("CliNome"));
+                petsList.add(pets);
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+        return petsList;
+        
+    }
+    
+    public void mostra_pets(){
+        ArrayList<Pet> list = petList();
+        DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Pets.getModel();
+        Object[] row = new Object[6];
+        for(int i=0; i<list.size(); i++){
+            row[0] = list.get(i).getPetID();
+            row[1] = list.get(i).getPetNome();
+            row[2] = list.get(i).getPetEsp();
+            row[3] = list.get(i).getPetraca();
+            row[4] = list.get(i).getPetSexo();
+            row[5] = list.get(i).getCliNome();
+            model.addRow(row);
+        }
     }
 
     /**
@@ -42,7 +85,7 @@ public class TelaPets extends javax.swing.JFrame {
         FornSelecionado = new javax.swing.JTextPane();
         ProcuraDono = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        jTabela_Mostra_Pets = new javax.swing.JTable();
         Editar = new javax.swing.JLabel();
         Novo = new javax.swing.JLabel();
         setinha = new javax.swing.JLabel();
@@ -58,7 +101,6 @@ public class TelaPets extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lupa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lupa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\lupa2.png")); // NOI18N
         lupa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lupaMouseClicked(evt);
@@ -79,35 +121,45 @@ public class TelaPets extends javax.swing.JFrame {
         });
         getContentPane().add(ProcuraDono, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
 
-        tabela.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
+        jTabela_Mostra_Pets.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTabela_Mostra_Pets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "ID", "Nome", "Telefone", "Email", "RG"
+                "ID", "Nome", "Espécie", "Raça", "Sexo", "Dono"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tabela.setRowHeight(30);
-        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTabela_Mostra_Pets.setRowHeight(30);
+        jTabela_Mostra_Pets.getTableHeader().setReorderingAllowed(false);
+        jTabela_Mostra_Pets.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaMouseClicked(evt);
+                jTabela_Mostra_PetsMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tabela);
+        jScrollPane2.setViewportView(jTabela_Mostra_Pets);
+        if (jTabela_Mostra_Pets.getColumnModel().getColumnCount() > 0) {
+            jTabela_Mostra_Pets.getColumnModel().getColumn(0).setMinWidth(30);
+            jTabela_Mostra_Pets.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTabela_Mostra_Pets.getColumnModel().getColumn(4).setMinWidth(40);
+            jTabela_Mostra_Pets.getColumnModel().getColumn(4).setPreferredWidth(1);
+            jTabela_Mostra_Pets.getColumnModel().getColumn(4).setMaxWidth(60);
+        }
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 277, 880, 270));
 
@@ -130,18 +182,14 @@ public class TelaPets extends javax.swing.JFrame {
         });
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 110, 40));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
-
-        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao2.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\input3.png")); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
 
@@ -153,18 +201,11 @@ public class TelaPets extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 110, 40));
-
-        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao2.png")); // NOI18N
         getContentPane().add(moldura3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\input3.png")); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 60));
-
-        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao2.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, -1, -1));
-
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -202,10 +243,10 @@ public class TelaPets extends javax.swing.JFrame {
          
     }//GEN-LAST:event_ProcuraDonoActionPerformed
 
-    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+    private void jTabela_Mostra_PetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_PetsMouseClicked
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_tabelaMouseClicked
+    }//GEN-LAST:event_jTabela_Mostra_PetsMouseClicked
     
     
     private void Transparente(){
@@ -261,11 +302,11 @@ public class TelaPets extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTabela_Mostra_Pets;
     private javax.swing.JLabel lupa;
     private javax.swing.JLabel moldura1;
     private javax.swing.JLabel moldura2;
     private javax.swing.JLabel moldura3;
     private javax.swing.JLabel setinha;
-    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }
