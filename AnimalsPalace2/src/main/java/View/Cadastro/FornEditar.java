@@ -6,12 +6,21 @@
 
 package View.Cadastro;
 import View.TelaFornecedores;
+//import View.TelaFornecedores.FornSelecionado;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gabim
  */
 public class FornEditar extends javax.swing.JFrame {
 
+    int IDFornecedor;
     /** Creates new form FornCadastro */
     public FornEditar() {
         initComponents();
@@ -38,6 +47,11 @@ public class FornEditar extends javax.swing.JFrame {
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Nm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -84,9 +98,12 @@ public class FornEditar extends javax.swing.JFrame {
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 390, 30));
 
-        jTextField3.setEditable(false);
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField3.setText("Fornecedor Selecionado");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
 
         Cancelar.setBackground(new java.awt.Color(204, 204, 255));
@@ -110,18 +127,70 @@ public class FornEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
-        String tel=jTextField1.getText();
+        String nome = jTextField3.getText();
+        String tel=jTextField1.getText(); 
         String email=jTextField2.getText();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String editar = "UPDATE Fornecedor SET ForNome = '"+nome+"', ForTel = '"+tel+"', Foremail = '"+email+"' WHERE ForID = '"+IDFornecedor+"'  ";
+            PreparedStatement statement = con.prepareStatement(editar);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
         //EditarForn(forn,tel,email);
     }//GEN-LAST:event_BtEditarActionPerformed
 
     private void BExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BExcluirActionPerformed
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String excluir = "Delete from Inicial.dbo.Produto where ProForID="+IDFornecedor+"\nDelete from Inicial.dbo.Fornecedor where ForID="+IDFornecedor;
+            PreparedStatement statement = con.prepareStatement(excluir);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
         dispose();
     }//GEN-LAST:event_BExcluirActionPerformed
 
+   
+    
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
         dispose();
     }//GEN-LAST:event_CancelarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+         try{
+            String Nome = jTextField3.getText();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Fornecedor WHERE ForNome = '"+Nome+"'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String tel = rs.getString("ForTel");
+                jTextField1.setText(tel);
+                String email = rs.getString("Foremail");
+                jTextField2.setText(email);
+                int id = rs.getInt("ForID");
+                IDFornecedor = id;
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,7 +238,7 @@ public class FornEditar extends javax.swing.JFrame {
     private javax.swing.JLabel Tl;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    public static javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
 }

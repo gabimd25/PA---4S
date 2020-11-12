@@ -26,21 +26,23 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabim
  */
 public class TelaFornecedores extends javax.swing.JFrame {
-
+    ArrayList<Forn> fornecedores = new ArrayList<>();
+    String query;
     /**
      * Creates new form TelaFornecedores
      */
     public TelaFornecedores() {
         initComponents();
-        mostra_forn();
+        query = "SELECT * FROM Fornecedor";
+        fornecedores = fornList(query);
+        mostra_forn(fornecedores);
     }
     
-    public ArrayList<Forn> fornList(){
+    public ArrayList<Forn> fornList(String query1){
         ArrayList<Forn> fornsList = new ArrayList<>();
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String query1 = "SELECT * FROM Fornecedor";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query1);
             Forn forn;
@@ -52,13 +54,12 @@ public class TelaFornecedores extends javax.swing.JFrame {
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
-        return fornsList;
-        
+        return fornsList;        
     }
-    
-    public void mostra_forn(){
-        ArrayList<Forn> list = fornList();
+    public void mostra_forn(ArrayList<Forn> fornecedores){
+        ArrayList<Forn> list = fornecedores;
         DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Forn.getModel();
+        model.setRowCount(0);
         Object[] row = new Object[4];
         for(int i=0; i<list.size(); i++){
             row[0] = list.get(i).getForID();
@@ -99,6 +100,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lupa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lupa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\lupa2.png")); // NOI18N
         lupa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lupaMouseClicked(evt);
@@ -207,10 +209,9 @@ public class TelaFornecedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-        String fornecedor;
-        fornecedor = ProcuraForn.getText();
-        System.out.println(fornecedor);
-       // TabelaForn();
+       query = "SELECT * FROM Inicial.dbo.Fornecedor WHERE ForNome LIKE '%"+ProcuraForn.getText()+"%'";
+       fornecedores = fornList(query);
+       mostra_forn(fornecedores);
     }//GEN-LAST:event_lupaMouseClicked
 
     private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
@@ -242,12 +243,12 @@ public class TelaFornecedores extends javax.swing.JFrame {
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
         if(FornSelecionado.getText()!="Fornecedor Selecionado"){
            FornEditar novo = new FornEditar();
+           FornEditar.jTextField3.setText(TelaFornecedores.FornSelecionado.getText());
             novo.setVisible(true); 
         }
         else{
             System.out.println("Escolha um fornecedor!");
-        }
-        
+        }        
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
@@ -262,6 +263,23 @@ public class TelaFornecedores extends javax.swing.JFrame {
 
     private void jTabela_Mostra_FornMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_FornMouseClicked
         // TODO add your handling code here:
+         try{
+            int row = jTabela_Mostra_Forn.getSelectedRow();
+            String Clicar_tabela = (jTabela_Mostra_Forn.getModel().getValueAt(row, 0).toString());
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Fornecedor WHERE ForID = '"+Clicar_tabela+"'  ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String nome = rs.getString("ForNome");
+                FornSelecionado.setText(nome);
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
         
     }//GEN-LAST:event_jTabela_Mostra_FornMouseClicked
     
@@ -308,7 +326,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Contatar;
     private javax.swing.JLabel Editar;
-    private javax.swing.JTextPane FornSelecionado;
+    public static javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
     private javax.swing.JTextField ProcuraForn;

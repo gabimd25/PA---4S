@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +32,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        LocalDateTime agora = LocalDateTime.now();
+        DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String dataFormatada = formatterData.format(agora);
+        DataDia.setText(dataFormatada);
         mostra_agenda();
     }
     
@@ -78,6 +84,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabela_Mostra_Agenda2 = new javax.swing.JTable();
         Logo = new javax.swing.JLabel();
+        DataDia = new javax.swing.JLabel();
         Donos = new javax.swing.JLabel();
         Pets = new javax.swing.JLabel();
         Agenda = new javax.swing.JLabel();
@@ -85,7 +92,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Fornecedores = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         Funcionarios = new javax.swing.JLabel();
-        DataeHora = new javax.swing.JLabel();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -113,6 +119,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 580, 280));
         getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, -1, -1));
+
+        DataDia.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        DataDia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(DataDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 540, 250, 60));
 
         Donos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         Donos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -173,9 +183,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(Funcionarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, -1, 40));
 
-        DataeHora.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        DataeHora.setText("Data e Hora");
-        getContentPane().add(DataeHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 550, 180, 60));
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -248,7 +256,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Agenda;
-    private javax.swing.JLabel DataeHora;
+    private javax.swing.JLabel DataDia;
     private javax.swing.JLabel Donos;
     private javax.swing.JLabel Fornecedores;
     private javax.swing.JLabel Funcionarios;

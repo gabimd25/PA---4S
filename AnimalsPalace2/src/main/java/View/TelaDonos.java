@@ -26,22 +26,24 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabim
  */
 public class TelaDonos extends javax.swing.JFrame {
-
+    ArrayList<Cli> clientes = new ArrayList<>();
+    String query;
     /**
      * Creates new form TelaFornecedores
      */
     public TelaDonos() {
         initComponents();
-        mostra_clientes();
+        query= "SELECT Cliente.CliID, Cliente.CliNome, Cliente.CliTel, Cliente.CliEmail, Cliente.CliRG, Pet.PetCliID, Pet.PetNome FROM Cliente, Pet WHERE Cliente.CliID = Pet.PetCliID";
+        clientes = clienteList(query);
+        mostra_clientes(clientes);
     }
     
-    public ArrayList<Cli> clienteList(){
+    public ArrayList<Cli> clienteList(String query4){
         ArrayList<Cli> clientesList = new ArrayList<>();
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
             //String query1 = "SELECT * FROM Cliente, Pet";
-            String query4 = "SELECT Cliente.CliID, Cliente.CliNome, Cliente.CliTel, Cliente.CliEmail, Cliente.CliRG, Pet.PetCliID, Pet.PetNome FROM Cliente, Pet WHERE Cliente.CliID = Pet.PetCliID";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query4);
             Cli cliente;
@@ -57,10 +59,11 @@ public class TelaDonos extends javax.swing.JFrame {
         
     }
     
-    public void mostra_clientes(){
-        ArrayList<Cli> list = clienteList();
+    public void mostra_clientes(ArrayList<Cli> clientes){
+        ArrayList<Cli> list = clientes;
         DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Clientes.getModel();
         Object[] row = new Object[6];
+        model.setRowCount(0);
         for(int i=0; i<list.size(); i++){
             row[0] = list.get(i).getCliID();
             row[1] = list.get(i).getCliNome();
@@ -211,10 +214,9 @@ public class TelaDonos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-        String dono;
-        dono = ProcuraDono.getText();
-        System.out.println(dono);
-       // TabelaForn();
+       query = "SELECT Cliente.CliID, Cliente.CliNome, Cliente.CliTel, Cliente.CliEmail, Cliente.CliRG, Pet.PetCliID, Pet.PetNome FROM Cliente, Pet WHERE Cliente.CliID = Pet.PetCliID AND CliNome LIKE '%"+ ProcuraDono.getText()+"%'";
+       clientes = clienteList(query);
+       mostra_clientes(clientes);
     }//GEN-LAST:event_lupaMouseClicked
 
     private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked

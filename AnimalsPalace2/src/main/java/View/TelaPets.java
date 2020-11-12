@@ -26,21 +26,23 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabim
  */
 public class TelaPets extends javax.swing.JFrame {
-
+    ArrayList<Pet> pets = new ArrayList<>();
+    String query;
     /**
      * Creates new form TelaFornecedores
      */
     public TelaPets() {
         initComponents();
-        mostra_pets();
+        query = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
+        pets = petList(query);
+        mostra_pets(pets);
     }
     
-    public ArrayList<Pet> petList(){
+    public ArrayList<Pet> petList(String query5){
         ArrayList<Pet> petsList = new ArrayList<>();
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String query5 = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query5);
             Pet pets;
@@ -56,9 +58,10 @@ public class TelaPets extends javax.swing.JFrame {
         
     }
     
-    public void mostra_pets(){
-        ArrayList<Pet> list = petList();
+    public void mostra_pets(ArrayList<Pet> pets){
+        ArrayList<Pet> list = pets;
         DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Pets.getModel();
+        model.setRowCount(0);
         Object[] row = new Object[6];
         for(int i=0; i<list.size(); i++){
             row[0] = list.get(i).getPetID();
@@ -83,7 +86,7 @@ public class TelaPets extends javax.swing.JFrame {
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         FornSelecionado = new javax.swing.JTextPane();
-        ProcuraDono = new javax.swing.JTextField();
+        ProcuraPet = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabela_Mostra_Pets = new javax.swing.JTable();
         Editar = new javax.swing.JLabel();
@@ -114,12 +117,12 @@ public class TelaPets extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
-        ProcuraDono.addActionListener(new java.awt.event.ActionListener() {
+        ProcuraPet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcuraDonoActionPerformed(evt);
+                ProcuraPetActionPerformed(evt);
             }
         });
-        getContentPane().add(ProcuraDono, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
+        getContentPane().add(ProcuraPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
 
         jTabela_Mostra_Pets.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTabela_Mostra_Pets.setModel(new javax.swing.table.DefaultTableModel(
@@ -212,10 +215,9 @@ public class TelaPets extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-        String dono;
-        dono = ProcuraDono.getText();
-        System.out.println(dono);
-       // TabelaForn();
+       query="SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID AND PetNome LIKE '%"+ProcuraPet.getText()+"%'";
+       pets = petList(query);
+       mostra_pets(pets);
     }//GEN-LAST:event_lupaMouseClicked
 
     private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
@@ -238,10 +240,10 @@ public class TelaPets extends javax.swing.JFrame {
         novo.setVisible(true);
     }//GEN-LAST:event_NovoMouseClicked
 
-    private void ProcuraDonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraDonoActionPerformed
+    private void ProcuraPetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraPetActionPerformed
         // TODO add your handling code here:
          
-    }//GEN-LAST:event_ProcuraDonoActionPerformed
+    }//GEN-LAST:event_ProcuraPetActionPerformed
 
     private void jTabela_Mostra_PetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_PetsMouseClicked
         // TODO add your handling code here:
@@ -297,7 +299,7 @@ public class TelaPets extends javax.swing.JFrame {
     private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
-    private javax.swing.JTextField ProcuraDono;
+    private javax.swing.JTextField ProcuraPet;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;

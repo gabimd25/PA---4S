@@ -26,21 +26,23 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabim
  */
 public class TelaFuncionarios extends javax.swing.JFrame {
-
+    ArrayList<Func> funcionarios = new ArrayList<>();
+    String query;
     /**
      * Creates new form TelaFornecedores
      */
     public TelaFuncionarios() {
         initComponents();
-        mostra_func();
+        query = "SELECT * FROM Funcionario";
+        funcionarios = funcList(query);
+        mostra_func(funcionarios);
     }
 
-    public ArrayList<Func> funcList(){
+    public ArrayList<Func> funcList(String query2){
         ArrayList<Func> funcsList = new ArrayList<>();
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String query2 = "SELECT * FROM Funcionario";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query2);
             Func func;
@@ -55,9 +57,10 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         return funcsList;
     }
     
-    public void mostra_func(){
-        ArrayList<Func> list = funcList();
+    public void mostra_func(ArrayList<Func> funcionarios){
+        ArrayList<Func> list = funcionarios;
         DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Func.getModel();
+        model.setRowCount(0);
         Object[] row = new Object[7];
         for(int i=0; i<list.size(); i++){
             row[0] = list.get(i).getFunID();
@@ -84,7 +87,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         FornSelecionado = new javax.swing.JTextPane();
-        ProcuraForn = new javax.swing.JTextField();
+        ProcuraFunc = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabela_Mostra_Func = new javax.swing.JTable();
         Editar = new javax.swing.JLabel();
@@ -115,12 +118,12 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
-        ProcuraForn.addActionListener(new java.awt.event.ActionListener() {
+        ProcuraFunc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcuraFornActionPerformed(evt);
+                ProcuraFuncActionPerformed(evt);
             }
         });
-        getContentPane().add(ProcuraForn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
+        getContentPane().add(ProcuraFunc, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
 
         jTabela_Mostra_Func.setFont(new java.awt.Font("Baskerville Old Face", 0, 20)); // NOI18N
         jTabela_Mostra_Func.setModel(new javax.swing.table.DefaultTableModel(
@@ -217,10 +220,9 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-        String fornecedor;
-        fornecedor = ProcuraForn.getText();
-        System.out.println(fornecedor);
-       // TabelaForn();
+       query = "SELECT * FROM Inicial.dbo.Funcionario WHERE FunNome LIKE '%"+ProcuraFunc.getText()+"%'";
+       funcionarios = funcList(query);
+       mostra_func(funcionarios);
     }//GEN-LAST:event_lupaMouseClicked
 
     private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
@@ -241,11 +243,9 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             statement.close();
             conexao.close();
         } catch (SQLException ex) {
-            System.out.println("Fornecedores1");
             Logger.getLogger(TelaFuncionarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TelaFuncionarios.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Fornecedores2");
         }
     }//GEN-LAST:event_ContatarMouseClicked
 
@@ -259,10 +259,10 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         novo.setVisible(true);
     }//GEN-LAST:event_NovoMouseClicked
 
-    private void ProcuraFornActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraFornActionPerformed
+    private void ProcuraFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraFuncActionPerformed
         // TODO add your handling code here:
          
-    }//GEN-LAST:event_ProcuraFornActionPerformed
+    }//GEN-LAST:event_ProcuraFuncActionPerformed
 
     private void jTabela_Mostra_FuncMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_FuncMouseClicked
         // TODO add your handling code here:
@@ -316,7 +316,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
-    private javax.swing.JTextField ProcuraForn;
+    private javax.swing.JTextField ProcuraFunc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
