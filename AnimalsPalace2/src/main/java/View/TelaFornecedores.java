@@ -179,30 +179,42 @@ public class TelaFornecedores extends javax.swing.JFrame {
         });
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 110, 40));
 
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
+
+        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, -1, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
 
-        Contatar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
-        Contatar.setText("Contatar");
+        Contatar.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
+        Contatar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Contatar.setText("Atualizar");
         Contatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ContatarMouseClicked(evt);
             }
         });
-        getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 110, 40));
+        getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 120, 40));
+
+        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 60));
+
+        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, -1, -1));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -221,30 +233,16 @@ public class TelaFornecedores extends javax.swing.JFrame {
     }//GEN-LAST:event_setinhaMouseClicked
 
     private void ContatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContatarMouseClicked
-        try {
-            Connection conexao = new Conexao().getConnection();
-            System.out.println("Iniciando comando!!!!");
-            String sql = "insert into dbo.Fornecedor(ForNome,ForTel,Foremail) values('LuArtes','323287898','lulu@hotmail.com');";
-            //insert into dbo.Fornecedor(ForNome,ForTel,Foremail) values('LuArtes','323287898','lulu@hotmail.com');
-            PreparedStatement statement = conexao.prepareStatement(sql);
-            statement.execute();
-            
-            statement.close();
-            conexao.close();
-        } catch (SQLException ex) {
-            System.out.println("Fornecedores1");
-            Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Fornecedores2");
-        }
+       query = "SELECT * FROM Fornecedor";
+       fornecedores = fornList(query);
+       mostra_forn(fornecedores);
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
         if(FornSelecionado.getText()!="Fornecedor Selecionado"){
            FornEditar novo = new FornEditar();
            FornEditar.jTextField3.setText(TelaFornecedores.FornSelecionado.getText());
-            novo.setVisible(true); 
+           novo.setVisible(true); 
         }
         else{
             System.out.println("Escolha um fornecedor!");

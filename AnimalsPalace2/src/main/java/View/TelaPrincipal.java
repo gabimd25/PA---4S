@@ -97,7 +97,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTabela_Mostra_Agenda2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jTabela_Mostra_Agenda2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTabela_Mostra_Agenda2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -118,6 +118,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTabela_Mostra_Agenda2);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 580, 280));
+
+        Logo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\LogoMenor.png")); // NOI18N
         getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, -1, -1));
 
         DataDia.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
@@ -157,6 +159,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Produtos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         Produtos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Produtos.setText("Produtos |");
+        Produtos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProdutosMouseClicked(evt);
+            }
+        });
         getContentPane().add(Produtos, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, -1, 40));
 
         Fornecedores.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
@@ -171,6 +178,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         jButton1.setText("Realizar Compra");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 390, 260, 80));
 
         Funcionarios.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
@@ -183,7 +195,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(Funcionarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, -1, 40));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -218,6 +230,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Func.setVisible(true);
         dispose();
     }//GEN-LAST:event_FuncionariosMouseClicked
+
+    private void ProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProdutosMouseClicked
+        TelaProdutos Prod = new TelaProdutos();
+        Prod.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_ProdutosMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        TelaCompras Compras = new TelaCompras();
+        Compras.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

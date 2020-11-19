@@ -10,22 +10,32 @@ import View.Cadastro.FornEditar;
 import dao.Conexao;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Gabim
  */
 public class TelaCompras extends javax.swing.JFrame {
-
+    ArrayList<Prod> produtos = new ArrayList<>();
+    String query;
     /**
      * Creates new form TelaFornecedores
      */
     public TelaCompras() {
         initComponents();
+        query = "SELECT	ProID,ProNome,ProPre,ForNome,ProQuant,ProDesc FROM Inicial.dbo.Produto p inner join Inicial.dbo.Fornecedor f on p.ProForID = f.ForID order by p.ProID";
+        produtos = prodList(query);
+        mostra_prod(produtos);
     }
 
     /**
@@ -38,15 +48,15 @@ public class TelaCompras extends javax.swing.JFrame {
     private void initComponents() {
 
         lupa = new javax.swing.JLabel();
-        ProcuraForn1 = new javax.swing.JTextField();
+        ProcuraProd = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         FornSelecionado = new javax.swing.JTextPane();
         ProcuraForn = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
-        Editar = new javax.swing.JLabel();
+        Finalizar = new javax.swing.JLabel();
         Qtd = new javax.swing.JLabel();
-        Novo = new javax.swing.JLabel();
+        Adicionar = new javax.swing.JLabel();
         setinha = new javax.swing.JLabel();
         moldura2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -58,7 +68,6 @@ public class TelaCompras extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lupa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lupa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\lupa2.png")); // NOI18N
         lupa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lupaMouseClicked(evt);
@@ -66,12 +75,12 @@ public class TelaCompras extends javax.swing.JFrame {
         });
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
-        ProcuraForn1.addActionListener(new java.awt.event.ActionListener() {
+        ProcuraProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcuraForn1ActionPerformed(evt);
+                ProcuraProdActionPerformed(evt);
             }
         });
-        getContentPane().add(ProcuraForn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 150, 90, 50));
+        getContentPane().add(ProcuraProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 150, 90, 50));
 
         FornSelecionado.setEditable(false);
         FornSelecionado.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -119,63 +128,85 @@ public class TelaCompras extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 880, 280));
 
-        Editar.setFont(new java.awt.Font("Brush Script MT", 0, 39)); // NOI18N
-        Editar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Editar.setText("Finalizar Compra");
-        Editar.addMouseListener(new java.awt.event.MouseAdapter() {
+        Finalizar.setFont(new java.awt.Font("Brush Script MT", 0, 39)); // NOI18N
+        Finalizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Finalizar.setText("Finalizar Compra");
+        Finalizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                EditarMouseClicked(evt);
+                FinalizarMouseClicked(evt);
             }
         });
-        getContentPane().add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 550, 240, 70));
+        getContentPane().add(Finalizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 550, 240, 70));
 
         Qtd.setFont(new java.awt.Font("Baskerville Old Face", 0, 36)); // NOI18N
         Qtd.setText("Qtd");
         getContentPane().add(Qtd, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, -1, -1));
 
-        Novo.setFont(new java.awt.Font("Brush Script MT", 0, 48)); // NOI18N
-        Novo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Novo.setText("Comprar");
-        Novo.addMouseListener(new java.awt.event.MouseAdapter() {
+        Adicionar.setFont(new java.awt.Font("Brush Script MT", 0, 48)); // NOI18N
+        Adicionar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Adicionar.setText("Comprar");
+        Adicionar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NovoMouseClicked(evt);
+                AdicionarMouseClicked(evt);
             }
         });
-        getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 140, 240, 70));
+        getContentPane().add(Adicionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 140, 240, 70));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
-
-        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\input3.png")); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\input3.png")); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 640, 70));
-
-        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 540, 270, 100));
-
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public ArrayList<Prod> prodList(String query1){
+        ArrayList<Prod> prodsList = new ArrayList<>();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query1);
+            Prod prod;
+            while(rs.next()){
+                prod = new Prod(rs.getInt("ProID"),rs.getString("ProNome"), rs.getFloat("ProPre"), rs.getString("ForNome"),rs.getInt("ProQuant"), rs.getString("ProDesc"));
+                prodsList.add(prod);
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+        return prodsList;        
+    }
+    public void mostra_prod(ArrayList<Prod> produtos){
+        ArrayList<Prod> list = produtos;
+        DefaultTableModel model = (DefaultTableModel)tabela.getModel();
+        model.setRowCount(0);
+        Object[] row = new Object[6];
+        for(int i=0; i<list.size(); i++){
+            row[0] = list.get(i).getProNome();
+            row[1] = "R$ "+list.get(i).getProPre();
+            row[2] = list.get(i).getForNome();
+            row[3] = list.get(i).getProQuant();
+            row[4] = list.get(i).getProDesc();
+            model.addRow(row);
+        }
+    }
     private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-        String fornecedor;
-        fornecedor = ProcuraForn.getText();
-        System.out.println(fornecedor);
-       // TabelaForn();
+        query = "SELECT	ProID,ProNome,ProPre,ForNome,ProQuant,ProDesc FROM Inicial.dbo.Produto p inner join Inicial.dbo.Fornecedor f on p.ProForID = f.ForID WHERE ProNome LIKE '%"+ProcuraProd.getText()+"%' order by p.ProID";
+       produtos = prodList(query);
+       mostra_prod(produtos);
     }//GEN-LAST:event_lupaMouseClicked
 
     private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
@@ -184,21 +215,16 @@ public class TelaCompras extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_setinhaMouseClicked
 
-    private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        if(FornSelecionado.getText()!="Fornecedor Selecionado"){
-           FornEditar novo = new FornEditar();
-            novo.setVisible(true); 
-        }
-        else{
-            System.out.println("Escolha um fornecedor!");
-        }
-        
-    }//GEN-LAST:event_EditarMouseClicked
+    private void FinalizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FinalizarMouseClicked
+        TelaCarrinho novo = new TelaCarrinho();
+        novo.setVisible(true); 
+    }//GEN-LAST:event_FinalizarMouseClicked
 
-    private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
-        FornCadastro novo = new FornCadastro();
-        novo.setVisible(true);
-    }//GEN-LAST:event_NovoMouseClicked
+    private void AdicionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdicionarMouseClicked
+        
+        //Adicionar profuto na lista do carrinho
+        
+    }//GEN-LAST:event_AdicionarMouseClicked
 
     private void ProcuraFornActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraFornActionPerformed
         // TODO add your handling code here:
@@ -210,9 +236,9 @@ public class TelaCompras extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tabelaMouseClicked
 
-    private void ProcuraForn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraForn1ActionPerformed
+    private void ProcuraProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraProdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ProcuraForn1ActionPerformed
+    }//GEN-LAST:event_ProcuraProdActionPerformed
     
     
     private void Transparente(){
@@ -258,12 +284,12 @@ public class TelaCompras extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Editar;
+    private javax.swing.JLabel Adicionar;
+    private javax.swing.JLabel Finalizar;
     private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
-    private javax.swing.JLabel Novo;
     private javax.swing.JTextField ProcuraForn;
-    private javax.swing.JTextField ProcuraForn1;
+    private javax.swing.JTextField ProcuraProd;
     private javax.swing.JLabel Qtd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

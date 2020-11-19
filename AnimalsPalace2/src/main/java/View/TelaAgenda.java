@@ -96,6 +96,7 @@ public class TelaAgenda extends javax.swing.JFrame {
         Novo.setText("Novo Atendimento");
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 210, 40));
 
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
@@ -104,10 +105,12 @@ public class TelaAgenda extends javax.swing.JFrame {
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         BtEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtEditar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 260, 100));
 
         BtNovo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtNovo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 260, 100));
 
@@ -124,6 +127,8 @@ public class TelaAgenda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTabela_Mostra_Agenda);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 910, -1));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1011, -1));
 
         pack();

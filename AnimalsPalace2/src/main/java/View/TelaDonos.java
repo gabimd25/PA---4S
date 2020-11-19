@@ -6,6 +6,7 @@
 package View;
 
 import View.Cadastro.DonoCadastro;
+import View.Cadastro.DonoEditar;
 import View.Cadastro.FornEditar;
 import dao.Conexao;
 import java.awt.Color;
@@ -86,7 +87,7 @@ public class TelaDonos extends javax.swing.JFrame {
 
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        FornSelecionado = new javax.swing.JTextPane();
+        DonoSelecionado = new javax.swing.JTextPane();
         ProcuraDono = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabela_Mostra_Clientes = new javax.swing.JTable();
@@ -105,6 +106,7 @@ public class TelaDonos extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lupa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lupa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\lupa2.png")); // NOI18N
         lupa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lupaMouseClicked(evt);
@@ -112,9 +114,9 @@ public class TelaDonos extends javax.swing.JFrame {
         });
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
-        FornSelecionado.setEditable(false);
-        FornSelecionado.setText("Dono Selecionado");
-        jScrollPane1.setViewportView(FornSelecionado);
+        DonoSelecionado.setEditable(false);
+        DonoSelecionado.setText("Dono Selecionado");
+        jScrollPane1.setViewportView(DonoSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
@@ -184,14 +186,18 @@ public class TelaDonos extends javax.swing.JFrame {
         });
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 110, 40));
 
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
+
+        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, -1, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
 
@@ -203,12 +209,19 @@ public class TelaDonos extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 110, 40));
+
+        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 60));
+
+        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, -1, -1));
-        getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
+        getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 650));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -230,8 +243,14 @@ public class TelaDonos extends javax.swing.JFrame {
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        FornEditar novo = new FornEditar();
-        novo.setVisible(true);
+        if(DonoSelecionado.getText()!="Cliente Selecionado"){
+           DonoEditar novo = new DonoEditar();
+           DonoEditar.nome.setText(TelaDonos.DonoSelecionado.getText());
+           novo.setVisible(true); 
+        }
+        else{
+            System.out.println("Escolha um cliente!");
+        }   
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
@@ -245,7 +264,23 @@ public class TelaDonos extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcuraDonoActionPerformed
 
     private void jTabela_Mostra_ClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_ClientesMouseClicked
-        // TODO add your handling code here:
+        try{
+            int row = jTabela_Mostra_Clientes.getSelectedRow();
+            String Clicar_tabela = (jTabela_Mostra_Clientes.getModel().getValueAt(row, 0).toString());
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Cliente WHERE CliID = '"+Clicar_tabela+"'  ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String nome = rs.getString("CliNome");
+                DonoSelecionado.setText(nome);
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
         
     }//GEN-LAST:event_jTabela_Mostra_ClientesMouseClicked
     
@@ -292,8 +327,8 @@ public class TelaDonos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Contatar;
+    public static javax.swing.JTextPane DonoSelecionado;
     private javax.swing.JLabel Editar;
-    private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
     private javax.swing.JTextField ProcuraDono;

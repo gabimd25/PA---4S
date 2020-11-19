@@ -65,7 +65,7 @@ public class TelaCarrinho extends javax.swing.JFrame {
         Itens.setText("Itens do Carrinho");
         getContentPane().add(Itens, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 270, 50));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
@@ -74,12 +74,12 @@ public class TelaCarrinho extends javax.swing.JFrame {
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         BtEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
+        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtEditar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 260, 100));
 
         BtNovo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao.png")); // NOI18N
+        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtNovo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 260, 100));
 
@@ -114,7 +114,7 @@ public class TelaCarrinho extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 910, 370));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1011, -1));
 
         pack();

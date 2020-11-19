@@ -6,12 +6,18 @@
 
 package View.Cadastro;
 import Model.Donos;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Gabim
  */
 public class DonoEditar extends javax.swing.JFrame {
-
+    int IDDono;
     /** Creates new form FornCadastro */
     public DonoEditar() {
         initComponents();
@@ -31,7 +37,7 @@ public class DonoEditar extends javax.swing.JFrame {
         Eml = new javax.swing.JLabel();
         BtExcluir = new javax.swing.JButton();
         BtCancelar = new javax.swing.JButton();
-        BtSalvar = new javax.swing.JButton();
+        BtEditar = new javax.swing.JButton();
         Sucesso = new javax.swing.JLabel();
         tel = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
@@ -41,6 +47,11 @@ public class DonoEditar extends javax.swing.JFrame {
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tl.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -80,20 +91,20 @@ public class DonoEditar extends javax.swing.JFrame {
         });
         getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 110, 40));
 
-        BtSalvar.setBackground(new java.awt.Color(204, 204, 255));
-        BtSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
-        BtSalvar.setText("Editar");
-        BtSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtEditar.setBackground(new java.awt.Color(204, 204, 255));
+        BtEditar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
+        BtEditar.setText("Editar");
+        BtEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvarMouseClicked(evt);
+                BtEditarMouseClicked(evt);
             }
         });
-        BtSalvar.addActionListener(new java.awt.event.ActionListener() {
+        BtEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtSalvarActionPerformed(evt);
+                BtEditarActionPerformed(evt);
             }
         });
-        getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 110, 40));
+        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 110, 40));
 
         Sucesso.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         getContentPane().add(Sucesso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 150, 30));
@@ -110,8 +121,11 @@ public class DonoEditar extends javax.swing.JFrame {
         email.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 390, 30));
 
+        nome.setEditable(false);
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 390, 30));
+
+        rg.setEditable(false);
         getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 180, 30));
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -134,28 +148,68 @@ public class DonoEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_BtCancelarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String excluir = "Delete from Inicial.dbo.Agenda where AgendaCliID="+IDDono+"Delete from Inicial.dbo.Pet where PetCliID="+IDDono+"\nDelete from Inicial.dbo.Cliente where CliID="+IDDono;
+            PreparedStatement statement = con.prepareStatement(excluir);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
         dispose();
     }//GEN-LAST:event_BtExcluirActionPerformed
 
     private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
         // TODO add your handling code here:
-        String Dnome = nome.getText();
-        String Dtel = tel.getText();
-        String Demail = email.getText();
-        String DRG = rg.getText();
-        if(Dnome!=null && Dnome!=""){
-          new Donos().SalvarDono(Dnome,Dtel,Demail,DRG);
-          Sucesso.setText("Salvo com Sucesso!");
-        }        
+        dispose();       
     }//GEN-LAST:event_BtCancelarMouseClicked
 
-    private void BtSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtSalvarMouseClicked
+    private void BtEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtEditarMouseClicked
+        String Tel=tel.getText(); 
+        String Email=email.getText();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String editar = "UPDATE Cliente SET CliTel = '"+Tel+"', Cliemail = '"+Email+"' WHERE CliID = '"+IDDono+"'  ";
+            PreparedStatement statement = con.prepareStatement(editar);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    }//GEN-LAST:event_BtEditarMouseClicked
 
-    private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
+    private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BtSalvarActionPerformed
+    }//GEN-LAST:event_BtEditarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+         try{
+            String Nome = nome.getText();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Cliente WHERE CliNome = '"+Nome+"'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String Tel = rs.getString("CliTel");
+                tel.setText(Tel);
+                String Email = rs.getString("Cliemail");
+                email.setText(Email);
+                String RG = rs.getString("CliRG");
+                rg.setText(RG);
+                int id = rs.getInt("CliID");
+                IDDono = id;
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -197,8 +251,8 @@ public class DonoEditar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCancelar;
+    private javax.swing.JButton BtEditar;
     private javax.swing.JButton BtExcluir;
-    private javax.swing.JButton BtSalvar;
     private javax.swing.JLabel Eml;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
@@ -206,7 +260,7 @@ public class DonoEditar extends javax.swing.JFrame {
     private javax.swing.JLabel Tl;
     private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField nome;
+    public static javax.swing.JTextField nome;
     private javax.swing.JTextField rg;
     private javax.swing.JTextField tel;
     // End of variables declaration//GEN-END:variables

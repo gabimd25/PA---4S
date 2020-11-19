@@ -28,6 +28,9 @@
     <Component class="javax.swing.JLabel" name="lupa">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="2"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\lupa2.png"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lupaMouseClicked"/>
@@ -50,11 +53,14 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextPane" name="FornSelecionado">
+        <Component class="javax.swing.JTextPane" name="DonoSelecionado">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value="Dono Selecionado"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -174,6 +180,11 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="setinha">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\setinha2.png"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="setinhaMouseClicked"/>
       </Events>
@@ -184,6 +195,11 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="moldura2">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\botao2.png"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="790" y="170" width="-1" height="-1"/>
@@ -192,6 +208,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\input3.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="jLabel3"/>
       </Properties>
       <Constraints>
@@ -217,6 +236,11 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="moldura3">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\botao2.png"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="510" y="170" width="-1" height="-1"/>
@@ -225,6 +249,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\input3.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
       <Constraints>
@@ -234,6 +261,11 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="moldura1">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\botao2.png"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="650" y="170" width="-1" height="-1"/>
@@ -241,9 +273,14 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="Fundo">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Gabim\Desktop\PA\PA---4S-master\AnimalsPalace\src\main\java\imagens\fundo4.png"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+          <AbsoluteConstraints x="0" y="0" width="950" height="650"/>
         </Constraint>
       </Constraints>
     </Component>

@@ -6,9 +6,8 @@
 package View;
 
 import View.Cadastro.DonoCadastro;
-import View.Cadastro.FornEditar;
+import View.Cadastro.FuncEditar;
 import dao.Conexao;
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -86,7 +85,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        FornSelecionado = new javax.swing.JTextPane();
+        FuncSelecionado = new javax.swing.JTextPane();
         ProcuraFunc = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabela_Mostra_Func = new javax.swing.JTable();
@@ -105,6 +104,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lupa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lupa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\lupa2.png")); // NOI18N
         lupa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lupaMouseClicked(evt);
@@ -112,9 +112,9 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         });
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
-        FornSelecionado.setEditable(false);
-        FornSelecionado.setText("Funcionário Selecionado");
-        jScrollPane1.setViewportView(FornSelecionado);
+        FuncSelecionado.setEditable(false);
+        FuncSelecionado.setText("Funcionário Selecionado");
+        jScrollPane1.setViewportView(FuncSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
@@ -190,14 +190,18 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         });
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 110, 40));
 
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
+
+        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, -1, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
 
@@ -209,11 +213,18 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 110, 40));
+
+        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 60));
+
+        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, -1, -1));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -250,8 +261,14 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        FornEditar novo = new FornEditar();
-        novo.setVisible(true);
+        if(FuncSelecionado.getText()!="Funcionario Selecionado"){
+           FuncEditar novo = new FuncEditar();
+           FuncEditar.nome.setText(TelaFuncionarios.FuncSelecionado.getText());
+            novo.setVisible(true); 
+        }
+        else{
+            System.out.println("Escolha um funcionario!");
+        } 
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
@@ -265,7 +282,23 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcuraFuncActionPerformed
 
     private void jTabela_Mostra_FuncMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_FuncMouseClicked
-        // TODO add your handling code here:
+        try{
+            int row = jTabela_Mostra_Func.getSelectedRow();
+            String Clicar_tabela = (jTabela_Mostra_Func.getModel().getValueAt(row, 0).toString());
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Funcionario WHERE FunID = '"+Clicar_tabela+"'  ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String nome = rs.getString("FunNome");
+                FuncSelecionado.setText(nome);
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
         
     }//GEN-LAST:event_jTabela_Mostra_FuncMouseClicked
     
@@ -313,7 +346,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Contatar;
     private javax.swing.JLabel Editar;
-    private javax.swing.JTextPane FornSelecionado;
+    public static javax.swing.JTextPane FuncSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
     private javax.swing.JTextField ProcuraFunc;

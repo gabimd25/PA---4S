@@ -6,15 +6,23 @@
 
 package View.Cadastro;
 import Model.Donos;
+import static View.Cadastro.FornEditar.jTextField3;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Gabim
  */
 public class ProdutoEditar extends javax.swing.JFrame {
-
+    int IDProduto;
     /** Creates new form FornCadastro */
-    public ProdutoEditar() {
+    public ProdutoEditar(int id) {
         initComponents();
+        IDProduto=id;
     }
 
     /** This method is called from within the constructor to
@@ -26,22 +34,33 @@ public class ProdutoEditar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Tl1 = new javax.swing.JLabel();
         Tl = new javax.swing.JLabel();
         Nm = new javax.swing.JLabel();
         Eml = new javax.swing.JLabel();
         BtExcluir = new javax.swing.JButton();
         BtCancelar = new javax.swing.JButton();
-        BtSalvar = new javax.swing.JButton();
+        BtEditar = new javax.swing.JButton();
         Sucesso = new javax.swing.JLabel();
-        tel = new javax.swing.JTextField();
-        email = new javax.swing.JTextField();
+        forn = new javax.swing.JTextField();
+        desc = new javax.swing.JTextField();
+        preco = new javax.swing.JTextField();
         nome = new javax.swing.JTextField();
-        rg = new javax.swing.JTextField();
+        quant = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Tl1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Tl1.setText("Fornecedor");
+        getContentPane().add(Tl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 90, 30));
 
         Tl.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Tl.setText("Descrição");
@@ -53,7 +72,7 @@ public class ProdutoEditar extends javax.swing.JFrame {
 
         Eml.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Eml.setText("Preço");
-        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 50, 30));
+        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, 50, 30));
 
         BtExcluir.setBackground(new java.awt.Color(204, 204, 255));
         BtExcluir.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -80,41 +99,48 @@ public class ProdutoEditar extends javax.swing.JFrame {
         });
         getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 110, 40));
 
-        BtSalvar.setBackground(new java.awt.Color(204, 204, 255));
-        BtSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
-        BtSalvar.setText("Editar");
-        BtSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtEditar.setBackground(new java.awt.Color(204, 204, 255));
+        BtEditar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
+        BtEditar.setText("Editar");
+        BtEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvarMouseClicked(evt);
+                BtEditarMouseClicked(evt);
             }
         });
-        BtSalvar.addActionListener(new java.awt.event.ActionListener() {
+        BtEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtSalvarActionPerformed(evt);
+                BtEditarActionPerformed(evt);
             }
         });
-        getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 110, 40));
+        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 110, 40));
 
         Sucesso.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         getContentPane().add(Sucesso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 150, 30));
 
-        tel.setEditable(false);
-        tel.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        tel.addActionListener(new java.awt.event.ActionListener() {
+        forn.setEditable(false);
+        forn.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        forn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telActionPerformed(evt);
+                fornActionPerformed(evt);
             }
         });
-        getContentPane().add(tel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 370, 30));
+        getContentPane().add(forn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 370, 30));
 
-        email.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        email.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 100, 30));
+        desc.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        desc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descActionPerformed(evt);
+            }
+        });
+        getContentPane().add(desc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 370, 30));
 
-        nome.setEditable(false);
+        preco.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        preco.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(preco, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 100, 30));
+
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 390, 30));
-        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 100, 30));
+        getContentPane().add(quant, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 100, 30));
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel4.setText("Quantidade");
@@ -126,9 +152,9 @@ public class ProdutoEditar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void telActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telActionPerformed
+    private void descActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_telActionPerformed
+    }//GEN-LAST:event_descActionPerformed
 
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
         // TODO add your handling code here:
@@ -136,29 +162,74 @@ public class ProdutoEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_BtCancelarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String excluir = "Delete from Inicial.dbo.Produto where ProID="+IDProduto;
+            PreparedStatement statement = con.prepareStatement(excluir);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
         dispose();
     }//GEN-LAST:event_BtExcluirActionPerformed
 
     private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
-        // TODO add your handling code here:
-        String Dnome = nome.getText();
-        String Dtel = tel.getText();
-        String Demail = email.getText();
-        String DRG = rg.getText();
-        if(Dnome!=null && Dnome!=""){
-          new Donos().SalvarDono(Dnome,Dtel,Demail,DRG);
-          Sucesso.setText("Salvo com Sucesso!");
-        }        
+        dispose(); 
     }//GEN-LAST:event_BtCancelarMouseClicked
 
-    private void BtSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtSalvarMouseClicked
+    private void BtEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtEditarMouseClicked
 
-    private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtSalvarActionPerformed
+    }//GEN-LAST:event_BtEditarMouseClicked
 
+    private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
+        String Nome = nome.getText();
+        String Desc=desc.getText(); 
+        int Quant= Integer.parseInt(quant.getText());
+        float Preco = Float.parseFloat(preco.getText());
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String editar = "UPDATE Produto SET ProNome = '"+Nome+"', ProDesc = '"+Desc+"', ProQuant = '"+Quant+"', ProPre = '"+Preco+"' WHERE ProID = "+IDProduto;
+            PreparedStatement statement = con.prepareStatement(editar);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    }//GEN-LAST:event_BtEditarActionPerformed
+
+    private void fornActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fornActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fornActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT ProNome,ProPre,ForNome,ProQuant from Inicial.dbo.Produto p inner join Inicial.dbo.Fornecedor f on p.ProForID = f.ForID WHERE ProID = '"+IDProduto+"' order by ProID";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String Nome = rs.getString("ProNome");
+                nome.setText(Nome);
+                String Desc = rs.getString("ProDesc");
+                desc.setText(Desc);
+                String Forn = rs.getString("ForNome");
+                forn.setText(Forn);
+                int Quant = rs.getInt("ProQuant");
+                quant.setText(String.valueOf(Quant));
+                Float Preco = rs.getFloat("ProPre");
+                preco.setText(String.valueOf(Preco));
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    }//GEN-LAST:event_formWindowOpened
+    
     /**
      * @param args the command line arguments
      */
@@ -204,25 +275,26 @@ public class ProdutoEditar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProdutoEditar().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCancelar;
+    private javax.swing.JButton BtEditar;
     private javax.swing.JButton BtExcluir;
-    private javax.swing.JButton BtSalvar;
     private javax.swing.JLabel Eml;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
     private javax.swing.JLabel Sucesso;
     private javax.swing.JLabel Tl;
-    private javax.swing.JTextField email;
+    private javax.swing.JLabel Tl1;
+    public static javax.swing.JTextField desc;
+    private javax.swing.JTextField forn;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField nome;
-    private javax.swing.JTextField rg;
-    private javax.swing.JTextField tel;
+    public static javax.swing.JTextField nome;
+    private javax.swing.JTextField preco;
+    private javax.swing.JTextField quant;
     // End of variables declaration//GEN-END:variables
 
 }

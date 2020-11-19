@@ -6,15 +6,24 @@
 
 package View.Cadastro;
 import Model.Pets;
+import static View.Cadastro.FornEditar.jTextField3;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Gabim
  */
 public class PetsEditar extends javax.swing.JFrame {
-
+    int CliID=0,PetID=0;
     /** Creates new form FornCadastro */
-    public PetsEditar() {
+    public PetsEditar(int IDCli,int IDPet) {
         initComponents();
+        CliID=IDCli;
+        PetID = IDPet;
     }
 
     /** This method is called from within the constructor to
@@ -53,6 +62,11 @@ public class PetsEditar extends javax.swing.JFrame {
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Sucesso.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -63,7 +77,6 @@ public class PetsEditar extends javax.swing.JFrame {
         getContentPane().add(sim, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, -1, -1));
 
         buttonGroup1.add(nao);
-        nao.setSelected(true);
         nao.setText("Não");
         getContentPane().add(nao, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 70, -1, -1));
 
@@ -138,6 +151,8 @@ public class PetsEditar extends javax.swing.JFrame {
         NomePet.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(NomePet, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 200, 30));
         getContentPane().add(Doenca, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 210, 30));
+
+        RG.setEditable(false);
         getContentPane().add(RG, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 140, 30));
 
         jLabel3.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -166,9 +181,7 @@ public class PetsEditar extends javax.swing.JFrame {
         getContentPane().add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, -1));
 
         Sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fêmea", "Macho" }));
-        getContentPane().add(Sexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 60, 30));
-
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        getContentPane().add(Sexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 80, 30));
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
@@ -184,6 +197,16 @@ public class PetsEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_BtSalvarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String excluir = "Delete from Inicial.dbo.Agenda where AgendaPetID="+PetID+"Delete from Inicial.dbo.Pet where PetID="+PetID;
+            PreparedStatement statement = con.prepareStatement(excluir);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
         dispose();
     }//GEN-LAST:event_BtExcluirActionPerformed
 
@@ -216,12 +239,56 @@ public class PetsEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_BtSalvarMouseClicked
 
     private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_BtCancelarMouseClicked
 
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtCancelarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Pet WHERE PetID = '"+PetID+"'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String nome = rs.getString("PetNome");
+                NomePet.setText(nome);
+                String especie = rs.getString("PetEsp");
+                Especie.setText(especie);
+                String raca = rs.getString("Petraca");
+                Raca.setText(raca);
+                String doenca = rs.getString("PetDoen");
+                Doenca.setText(doenca);
+                String castrado = rs.getString("PetCast");
+                if(castrado=="N"){
+                    nao.isSelected();
+                }
+                else{
+                    sim.setSelected(rootPaneCheckingEnabled);
+                }
+                if(rs.getString("PetSexo")=="M"){
+                    Sexo.setSelectedItem("Macho");
+                }
+                else{
+                    Sexo.setSelectedItem("Fêmea");
+                }                
+            }
+            selecionado = "SELECT * FROM Cliente WHERE CliID = '"+CliID+"'";
+            st = con.createStatement();
+            rs = st.executeQuery(selecionado);
+            if(rs.next()){
+                String rg= rs.getString("CliRG");
+                RG.setText(rg);
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -260,7 +327,7 @@ public class PetsEditar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PetsEditar().setVisible(true);
+                //new PetsEditar().setVisible(true);
             }
         });
     }
@@ -275,7 +342,7 @@ public class PetsEditar extends javax.swing.JFrame {
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
     private javax.swing.JTextField NomePet;
-    private javax.swing.JTextField RG;
+    public static javax.swing.JTextField RG;
     private javax.swing.JTextField Raca;
     private javax.swing.JLabel Raca1;
     private javax.swing.JComboBox<String> Sexo;

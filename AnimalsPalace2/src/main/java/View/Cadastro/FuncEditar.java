@@ -6,12 +6,19 @@
 
 package View.Cadastro;
 import Model.Funcionarios;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Gabim
  */
 public class FuncEditar extends javax.swing.JFrame {
-
+    
+    int IDFuncionario;
     /** Creates new form FornCadastro */
     public FuncEditar() {
         initComponents();
@@ -31,9 +38,9 @@ public class FuncEditar extends javax.swing.JFrame {
         Nm = new javax.swing.JLabel();
         RG = new javax.swing.JLabel();
         Endereco = new javax.swing.JLabel();
-        BtSair = new javax.swing.JButton();
+        BtExcluir = new javax.swing.JButton();
         BtCancelar = new javax.swing.JButton();
-        BtSalvar = new javax.swing.JButton();
+        BtEditar = new javax.swing.JButton();
         tel = new javax.swing.JTextField();
         end = new javax.swing.JTextField();
         nome = new javax.swing.JTextField();
@@ -45,6 +52,11 @@ public class FuncEditar extends javax.swing.JFrame {
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Sucesso.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -66,15 +78,15 @@ public class FuncEditar extends javax.swing.JFrame {
         Endereco.setText("Endereço");
         getContentPane().add(Endereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 80, 40));
 
-        BtSair.setBackground(new java.awt.Color(204, 204, 255));
-        BtSair.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
-        BtSair.setText("Excluir");
-        BtSair.addActionListener(new java.awt.event.ActionListener() {
+        BtExcluir.setBackground(new java.awt.Color(204, 204, 255));
+        BtExcluir.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
+        BtExcluir.setText("Excluir");
+        BtExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtSairActionPerformed(evt);
+                BtExcluirActionPerformed(evt);
             }
         });
-        getContentPane().add(BtSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 120, 40));
+        getContentPane().add(BtExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 120, 40));
 
         BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
         BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 22)); // NOI18N
@@ -91,20 +103,20 @@ public class FuncEditar extends javax.swing.JFrame {
         });
         getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 110, 40));
 
-        BtSalvar.setBackground(new java.awt.Color(204, 204, 255));
-        BtSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
-        BtSalvar.setText("Editar");
-        BtSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtEditar.setBackground(new java.awt.Color(204, 204, 255));
+        BtEditar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
+        BtEditar.setText("Editar");
+        BtEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvarMouseClicked(evt);
+                BtEditarMouseClicked(evt);
             }
         });
-        BtSalvar.addActionListener(new java.awt.event.ActionListener() {
+        BtEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtSalvarActionPerformed(evt);
+                BtEditarActionPerformed(evt);
             }
         });
-        getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 110, 40));
+        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 110, 40));
 
         tel.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         tel.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +130,7 @@ public class FuncEditar extends javax.swing.JFrame {
         end.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(end, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 390, 30));
 
+        nome.setEditable(false);
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         nome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +138,11 @@ public class FuncEditar extends javax.swing.JFrame {
             }
         });
         getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 390, 30));
+
+        rg.setEditable(false);
         getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 160, 30));
+
+        ct.setEditable(false);
         getContentPane().add(ct, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 280, 30));
         getContentPane().add(funcao, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 320, 30));
 
@@ -147,40 +164,75 @@ public class FuncEditar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_telActionPerformed
 
-    private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
+    private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
         // TODO add your handling code here:
         //
-    }//GEN-LAST:event_BtSalvarActionPerformed
+    }//GEN-LAST:event_BtEditarActionPerformed
 
-    private void BtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSairActionPerformed
+    private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String excluir = "Delete from Inicial.dbo.Funcionario where FunID="+IDFuncionario;
+            PreparedStatement statement = con.prepareStatement(excluir);
+            statement.execute();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
         dispose();
-    }//GEN-LAST:event_BtSairActionPerformed
+    }//GEN-LAST:event_BtExcluirActionPerformed
 
-    private void BtSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvarMouseClicked
+    private void BtEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtEditarMouseClicked
         // TODO add your handling code here:
-        String nomeFunc = nome.getText();
         String telefone = tel.getText();
         String endereco = end.getText();
-        String carteirat = ct.getText();
         String rgeral = rg.getText();
         String fun = funcao.getText();
-        if(nomeFunc!=null && nomeFunc!=""){
-          new Funcionarios().SalvarFunc(nomeFunc,telefone,endereco,rgeral,carteirat,fun);
-          Sucesso.setText("Salvo com Sucesso!");
-        }        
-    }//GEN-LAST:event_BtSalvarMouseClicked
+        new Funcionarios().EditarFunc(telefone,endereco,rgeral,fun);
+        Sucesso.setText("Salvo com Sucesso!");
+    }//GEN-LAST:event_BtEditarMouseClicked
 
     private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nomeActionPerformed
 
     private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_BtCancelarMouseClicked
 
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtCancelarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try{
+            String Nome = nome.getText();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Funcionario WHERE FunNome = '"+Nome+"'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String telefone = rs.getString("FunTel");
+                tel.setText(telefone);
+                String RG = rs.getString("FunRG");
+                rg.setText(RG);
+                String endereco = rs.getString("FunEnd");
+                end.setText(endereco);
+                String CT = rs.getString("FunCT");
+                ct.setText(CT);
+                String Fun = rs.getString("FunFun");
+                funcao.setText(Fun);
+                int id = rs.getInt("FunID");
+                IDFuncionario = id;
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e); 
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -222,8 +274,8 @@ public class FuncEditar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCancelar;
-    private javax.swing.JButton BtSair;
-    private javax.swing.JButton BtSalvar;
+    private javax.swing.JButton BtEditar;
+    private javax.swing.JButton BtExcluir;
     private javax.swing.JLabel Endereco;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
@@ -235,7 +287,7 @@ public class FuncEditar extends javax.swing.JFrame {
     private javax.swing.JTextField funcao;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField nome;
+    public static javax.swing.JTextField nome;
     private javax.swing.JTextField rg;
     private javax.swing.JTextField tel;
     // End of variables declaration//GEN-END:variables

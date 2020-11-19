@@ -7,6 +7,9 @@ package View;
 
 import View.Cadastro.DonoCadastro;
 import View.Cadastro.FornEditar;
+import View.Cadastro.ProdutoCadastro;
+import View.Cadastro.ProdutoEditar;
+import static View.TelaFornecedores.FornSelecionado;
 import dao.Conexao;
 import java.awt.Color;
 import java.sql.Connection;
@@ -28,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaProdutos extends javax.swing.JFrame {
     ArrayList<Prod> produtos = new ArrayList<>();
     String query;
+    int IDProduto=0;
     /**
      * Creates new form TelaFornecedores
      */
@@ -49,7 +53,7 @@ public class TelaProdutos extends javax.swing.JFrame {
 
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        FornSelecionado = new javax.swing.JTextPane();
+        ProdSelecionado = new javax.swing.JTextPane();
         ProcuraProd = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -62,6 +66,8 @@ public class TelaProdutos extends javax.swing.JFrame {
         moldura3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         moldura1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ProdSelecionado1 = new javax.swing.JTextPane();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,9 +82,9 @@ public class TelaProdutos extends javax.swing.JFrame {
         });
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
-        FornSelecionado.setEditable(false);
-        FornSelecionado.setText("Produto Selecionado");
-        jScrollPane1.setViewportView(FornSelecionado);
+        ProdSelecionado.setEditable(false);
+        ProdSelecionado.setText("Produto Selecionado");
+        jScrollPane1.setViewportView(ProdSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
@@ -146,7 +152,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         });
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 110, 40));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\setinha2.png")); // NOI18N
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setinhaMouseClicked(evt);
@@ -154,15 +160,15 @@ public class TelaProdutos extends javax.swing.JFrame {
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
 
-        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao2.png")); // NOI18N
+        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\input3.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
 
-        Contatar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
-        Contatar.setText("Contatar");
+        Contatar.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
+        Contatar.setText("Atualizar");
         Contatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ContatarMouseClicked(evt);
@@ -170,15 +176,22 @@ public class TelaProdutos extends javax.swing.JFrame {
         });
         getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 110, 40));
 
-        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao2.png")); // NOI18N
+        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\input3.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 60));
 
-        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\botao2.png")); // NOI18N
+        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, -1, -1));
+
+        ProdSelecionado1.setEditable(false);
+        ProdSelecionado1.setText("auhsuahsuhaushauhsuahs");
+        ProdSelecionado1.setRequestFocusEnabled(false);
+        jScrollPane3.setViewportView(ProdSelecionado1);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 430, 40));
 
         Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -232,21 +245,23 @@ public class TelaProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_setinhaMouseClicked
 
     private void ContatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContatarMouseClicked
-     //comando para enviar email para o fornecedor
+       query = "SELECT	ProID,ProNome,ProPre,ForNome,ProQuant,ProDesc FROM Inicial.dbo.Produto p inner join Inicial.dbo.Fornecedor f on p.ProForID = f.ForID order by p.ProID";
+       produtos = prodList(query);
+       mostra_prod(produtos);
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        if(FornSelecionado.getText()!="Fornecedor Selecionado"){
-           FornEditar novo = new FornEditar();
-            novo.setVisible(true); 
+        if(IDProduto!=0){
+           ProdutoEditar novo = new ProdutoEditar(IDProduto);
+           novo.setVisible(true); 
         }
         else{
-            System.out.println("Escolha um fornecedor!");
+            System.out.println("Escolha um Produto!");
         }  
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
-        DonoCadastro novo = new DonoCadastro();
+        ProdutoCadastro novo = new ProdutoCadastro();
         novo.setVisible(true);
     }//GEN-LAST:event_NovoMouseClicked
 
@@ -257,7 +272,24 @@ public class TelaProdutos extends javax.swing.JFrame {
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // TODO add your handling code here:
+        try{
+            int row = tabela.getSelectedRow();
+            String Clicar_tabela = (tabela.getModel().getValueAt(row, 0).toString());
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Produto WHERE ProID = '"+Clicar_tabela+"'  ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String nome = rs.getString("ProNome");
+                ProdSelecionado.setText(nome);
+                IDProduto= rs.getInt("ProID");
+            }
         
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
     }//GEN-LAST:event_tabelaMouseClicked
     
     
@@ -310,14 +342,16 @@ public class TelaProdutos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Contatar;
     private javax.swing.JLabel Editar;
-    private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
     private javax.swing.JTextField ProcuraProd;
+    public static javax.swing.JTextPane ProdSelecionado;
+    public static javax.swing.JTextPane ProdSelecionado1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lupa;
     private javax.swing.JLabel moldura1;
     private javax.swing.JLabel moldura2;

@@ -6,7 +6,7 @@
 package View;
 
 import View.Cadastro.PetsCadastro;
-import View.Cadastro.FornEditar;
+import View.Cadastro.PetsEditar;
 import dao.Conexao;
 import java.awt.Color;
 import java.sql.Connection;
@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaPets extends javax.swing.JFrame {
     ArrayList<Pet> pets = new ArrayList<>();
     String query;
+    int CliID=0,PetID=0;
     /**
      * Creates new form TelaFornecedores
      */
@@ -85,7 +86,7 @@ public class TelaPets extends javax.swing.JFrame {
 
         lupa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        FornSelecionado = new javax.swing.JTextPane();
+        PetSelecionado = new javax.swing.JTextPane();
         ProcuraPet = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabela_Mostra_Pets = new javax.swing.JTable();
@@ -111,9 +112,9 @@ public class TelaPets extends javax.swing.JFrame {
         });
         getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
 
-        FornSelecionado.setEditable(false);
-        FornSelecionado.setText("Pet Selecionado");
-        jScrollPane1.setViewportView(FornSelecionado);
+        PetSelecionado.setEditable(false);
+        PetSelecionado.setText("Pet Selecionado");
+        jScrollPane1.setViewportView(PetSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
 
@@ -231,8 +232,13 @@ public class TelaPets extends javax.swing.JFrame {
     }//GEN-LAST:event_ContatarMouseClicked
 
     private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        FornEditar novo = new FornEditar();
-        novo.setVisible(true);
+        if(CliID!=0){
+           PetsEditar novo = new PetsEditar(CliID,PetID);
+           novo.setVisible(true); 
+        }
+        else{
+            System.out.println("Escolha um fornecedor!");
+        }   
     }//GEN-LAST:event_EditarMouseClicked
 
     private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
@@ -246,7 +252,26 @@ public class TelaPets extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcuraPetActionPerformed
 
     private void jTabela_Mostra_PetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_PetsMouseClicked
-        // TODO add your handling code here:
+        try{
+            int row = jTabela_Mostra_Pets.getSelectedRow();
+            String Clicar_tabela = (jTabela_Mostra_Pets.getModel().getValueAt(row, 0).toString());
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Pet WHERE PetID = '"+Clicar_tabela+"'  ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                String nome = rs.getString("PetNome");
+                PetSelecionado.setText(nome);
+                int id = rs.getInt("PetCliID");
+                CliID=id;
+                PetID = rs.getInt("PetID");
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
         
     }//GEN-LAST:event_jTabela_Mostra_PetsMouseClicked
     
@@ -296,9 +321,9 @@ public class TelaPets extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Contatar;
     private javax.swing.JLabel Editar;
-    private javax.swing.JTextPane FornSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
+    private javax.swing.JTextPane PetSelecionado;
     private javax.swing.JTextField ProcuraPet;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

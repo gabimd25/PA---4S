@@ -5,7 +5,13 @@
  */
 
 package View.Cadastro;
-import Model.Donos;
+import Model.Produtos;
+import static View.Cadastro.FornEditar.jTextField3;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Gabim
@@ -29,13 +35,15 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         Tl = new javax.swing.JLabel();
         Nm = new javax.swing.JLabel();
         Eml = new javax.swing.JLabel();
+        Nm1 = new javax.swing.JLabel();
         BtCancelar = new javax.swing.JButton();
         BtSalvar1 = new javax.swing.JButton();
         Sucesso = new javax.swing.JLabel();
-        tel = new javax.swing.JTextField();
-        email = new javax.swing.JTextField();
+        forn = new javax.swing.JTextField();
+        desc = new javax.swing.JTextField();
+        preco = new javax.swing.JTextField();
         nome = new javax.swing.JTextField();
-        rg = new javax.swing.JTextField();
+        qtd = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         Fundo = new javax.swing.JLabel();
 
@@ -52,7 +60,11 @@ public class ProdutoCadastro extends javax.swing.JFrame {
 
         Eml.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Eml.setText("Preço");
-        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 70, 30));
+        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, 70, 30));
+
+        Nm1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Nm1.setText("Fornecedor");
+        getContentPane().add(Nm1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 90, 40));
 
         BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
         BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -82,21 +94,25 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         Sucesso.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         getContentPane().add(Sucesso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 150, 30));
 
-        tel.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        tel.addActionListener(new java.awt.event.ActionListener() {
+        forn.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(forn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 360, 30));
+
+        desc.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        desc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telActionPerformed(evt);
+                descActionPerformed(evt);
             }
         });
-        getContentPane().add(tel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 370, 30));
+        getContentPane().add(desc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 370, 30));
 
-        email.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        email.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 110, 30));
+        preco.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        preco.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        preco.setText("0.00");
+        getContentPane().add(preco, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, 110, 30));
 
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 390, 30));
-        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 100, 30));
+        getContentPane().add(qtd, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 100, 30));
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel4.setText("Quantidade");
@@ -108,9 +124,9 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void telActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telActionPerformed
+    private void descActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_telActionPerformed
+    }//GEN-LAST:event_descActionPerformed
 
     private void BtSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvar1ActionPerformed
         // TODO add your handling code here:
@@ -123,12 +139,32 @@ public class ProdutoCadastro extends javax.swing.JFrame {
 
     private void BtSalvar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvar1MouseClicked
         // TODO add your handling code here:
-        String Dnome = nome.getText();
-        String Dtel = tel.getText();
-        String Demail = email.getText();
-        String DRG = rg.getText();
-        if(Dnome!=null && Dnome!=""){
-          new Donos().SalvarDono(Dnome,Dtel,Demail,DRG);
+        int IDForn=0;
+        try{
+            String Nome = forn.getText();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT * FROM Fornecedor WHERE ForNome LIKE '%"+Nome+"%'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                IDForn = rs.getInt("ForID");
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+            System.out.println("\nExcecao!!\n");
+        }
+        System.out.println("ID="+IDForn+"\n\n");
+        String Pnome = nome.getText();
+        String Pdesc = desc.getText();
+        //String pForn = forn.getText();
+        int Pqtd = Integer.parseInt(qtd.getText());
+        float Ppreco = Float.parseFloat(preco.getText());
+        
+        if(!"".equals(Pnome) && IDForn!=0){
+          new Produtos().SalvarProd(IDForn,Pnome,Pdesc,Ppreco,Pqtd);
           Sucesso.setText("Salvo com Sucesso!");
         }        
     }//GEN-LAST:event_BtSalvar1MouseClicked
@@ -181,13 +217,15 @@ public class ProdutoCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel Eml;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
+    private javax.swing.JLabel Nm1;
     private javax.swing.JLabel Sucesso;
     private javax.swing.JLabel Tl;
-    private javax.swing.JTextField email;
+    private javax.swing.JTextField desc;
+    private javax.swing.JTextField forn;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField nome;
-    private javax.swing.JTextField rg;
-    private javax.swing.JTextField tel;
+    private javax.swing.JTextField preco;
+    private javax.swing.JTextField qtd;
     // End of variables declaration//GEN-END:variables
 
 }
