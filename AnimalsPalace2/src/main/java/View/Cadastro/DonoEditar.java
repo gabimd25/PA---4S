@@ -11,6 +11,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -94,11 +97,6 @@ public class DonoEditar extends javax.swing.JFrame {
         BtEditar.setBackground(new java.awt.Color(204, 204, 255));
         BtEditar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtEditar.setText("Editar");
-        BtEditar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtEditarMouseClicked(evt);
-            }
-        });
         BtEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtEditarActionPerformed(evt);
@@ -132,7 +130,7 @@ public class DonoEditar extends javax.swing.JFrame {
         jLabel4.setText("RG");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
@@ -166,7 +164,7 @@ public class DonoEditar extends javax.swing.JFrame {
         dispose();       
     }//GEN-LAST:event_BtCancelarMouseClicked
 
-    private void BtEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtEditarMouseClicked
+    private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
         String Tel=tel.getText(); 
         String Email=email.getText();
         try{
@@ -179,10 +177,7 @@ public class DonoEditar extends javax.swing.JFrame {
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
         }
-    }//GEN-LAST:event_BtEditarMouseClicked
-
-    private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_BtEditarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

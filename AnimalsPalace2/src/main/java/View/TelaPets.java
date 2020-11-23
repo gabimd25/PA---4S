@@ -95,7 +95,7 @@ public class TelaPets extends javax.swing.JFrame {
         setinha = new javax.swing.JLabel();
         moldura2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        Contatar = new javax.swing.JLabel();
+        Atualizar = new javax.swing.JLabel();
         moldura3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         moldura1 = new javax.swing.JLabel();
@@ -104,15 +104,17 @@ public class TelaPets extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lupa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lupa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lupa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\lupa2.png")); // NOI18N
         lupa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lupaMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lupaMousePressed(evt);
             }
         });
-        getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 90, 60));
+        getContentPane().add(lupa, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 30, 100, 70));
 
         PetSelecionado.setEditable(false);
+        PetSelecionado.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         PetSelecionado.setText("Pet Selecionado");
         jScrollPane1.setViewportView(PetSelecionado);
 
@@ -152,106 +154,111 @@ public class TelaPets extends javax.swing.JFrame {
         jTabela_Mostra_Pets.setRowHeight(30);
         jTabela_Mostra_Pets.getTableHeader().setReorderingAllowed(false);
         jTabela_Mostra_Pets.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabela_Mostra_PetsMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTabela_Mostra_PetsMousePressed(evt);
             }
         });
         jScrollPane2.setViewportView(jTabela_Mostra_Pets);
-        if (jTabela_Mostra_Pets.getColumnModel().getColumnCount() > 0) {
-            jTabela_Mostra_Pets.getColumnModel().getColumn(0).setMinWidth(30);
-            jTabela_Mostra_Pets.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTabela_Mostra_Pets.getColumnModel().getColumn(4).setMinWidth(40);
-            jTabela_Mostra_Pets.getColumnModel().getColumn(4).setPreferredWidth(1);
-            jTabela_Mostra_Pets.getColumnModel().getColumn(4).setMaxWidth(60);
-        }
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 277, 880, 270));
 
         Editar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
+        Editar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Editar.setText("Editar");
         Editar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                EditarMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                EditarMousePressed(evt);
             }
         });
-        getContentPane().add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 190, 100, 40));
+        getContentPane().add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 190, 120, 40));
 
         Novo.setFont(new java.awt.Font("Brush Script MT", 0, 42)); // NOI18N
         Novo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Novo.setText("Novo");
         Novo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NovoMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                NovoMousePressed(evt);
             }
         });
         getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 110, 40));
 
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                setinhaMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                setinhaMousePressed(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 50));
+
+        moldura2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, -1, -1));
 
-        jLabel3.setText("jLabel3");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 640, 70));
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 630, 70));
 
-        Contatar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
-        Contatar.setText("Contatar");
-        Contatar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ContatarMouseClicked(evt);
+        Atualizar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
+        Atualizar.setText("Atualizar");
+        Atualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                AtualizarMousePressed(evt);
             }
         });
-        getContentPane().add(Contatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 110, 40));
+        getContentPane().add(Atualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, 120, 40));
+
+        moldura3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\input3.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 60));
+
+        moldura1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         getContentPane().add(moldura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, -1, -1));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMouseClicked
-       query="SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID AND PetNome LIKE '%"+ProcuraPet.getText()+"%'";
-       pets = petList(query);
-       mostra_pets(pets);
-    }//GEN-LAST:event_lupaMouseClicked
-
-    private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
-        TelaPrincipal Principal = new TelaPrincipal();
-        Principal.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_setinhaMouseClicked
-
-    private void ContatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContatarMouseClicked
-     //comando para enviar email para o fornecedor
-    }//GEN-LAST:event_ContatarMouseClicked
-
-    private void EditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMouseClicked
-        if(CliID!=0){
-           PetsEditar novo = new PetsEditar(CliID,PetID);
-           novo.setVisible(true); 
-        }
-        else{
-            System.out.println("Escolha um fornecedor!");
-        }   
-    }//GEN-LAST:event_EditarMouseClicked
-
-    private void NovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMouseClicked
-        PetsCadastro novo = new PetsCadastro();
-        novo.setVisible(true);
-    }//GEN-LAST:event_NovoMouseClicked
 
     private void ProcuraPetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraPetActionPerformed
         // TODO add your handling code here:
          
     }//GEN-LAST:event_ProcuraPetActionPerformed
 
-    private void jTabela_Mostra_PetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_PetsMouseClicked
+    private void setinhaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMousePressed
+        TelaPrincipal Principal = new TelaPrincipal();
+        Principal.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_setinhaMousePressed
+
+    private void lupaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMousePressed
+       query="SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID AND PetNome LIKE '%"+ProcuraPet.getText()+"%'";
+       pets = petList(query);
+       mostra_pets(pets);
+    }//GEN-LAST:event_lupaMousePressed
+
+    private void AtualizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AtualizarMousePressed
+        query = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
+       pets = petList(query);
+       mostra_pets(pets);
+    }//GEN-LAST:event_AtualizarMousePressed
+
+    private void EditarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMousePressed
+        if(CliID!=0){
+           PetsEditar novo = new PetsEditar(CliID,PetID);
+           novo.setVisible(true); 
+        }
+        else{
+            System.out.println("Escolha um fornecedor!");
+        }
+    }//GEN-LAST:event_EditarMousePressed
+
+    private void NovoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMousePressed
+        PetsCadastro novo = new PetsCadastro();
+        novo.setVisible(true);
+    }//GEN-LAST:event_NovoMousePressed
+
+    private void jTabela_Mostra_PetsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_PetsMousePressed
         try{
             int row = jTabela_Mostra_Pets.getSelectedRow();
             String Clicar_tabela = (jTabela_Mostra_Pets.getModel().getValueAt(row, 0).toString());
@@ -272,8 +279,7 @@ public class TelaPets extends javax.swing.JFrame {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
-        
-    }//GEN-LAST:event_jTabela_Mostra_PetsMouseClicked
+    }//GEN-LAST:event_jTabela_Mostra_PetsMousePressed
     
     
     private void Transparente(){
@@ -319,7 +325,7 @@ public class TelaPets extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Contatar;
+    private javax.swing.JLabel Atualizar;
     private javax.swing.JLabel Editar;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;

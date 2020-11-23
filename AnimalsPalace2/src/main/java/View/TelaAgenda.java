@@ -5,6 +5,8 @@
  */
 package View;
 
+import View.Cadastro.AgendaCadastro;
+import View.Cadastro.AgendaEditar;
 import dao.Conexao;
 import java.awt.Color;
 import java.sql.Connection;
@@ -24,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabim
  */
 public class TelaAgenda extends javax.swing.JFrame {
-
+    public int IDAgenda;
     /**
      * Creates new form TelaAgenda
      */
@@ -56,12 +58,14 @@ public class TelaAgenda extends javax.swing.JFrame {
     public void mostra_agenda(){
         ArrayList<Agen> list = agenList();
         DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Agenda.getModel();
-        Object[] row = new Object[4];
+        Object[] row = new Object[5];
+        model.setRowCount(0);
         for(int i=0; i<list.size(); i++){
-            row[0] = list.get(i).getAgendaDia() + " " +list.get(i).getAgendaHora();
-            row[1] = list.get(i).getCliNome();
-            row[2] = list.get(i).getPetNome();
-            row[3] = list.get(i).getServico();
+            row[0] = list.get(i).getAgendaDia();
+            row[1] = list.get(i).getAgendaHora();
+            row[2] = list.get(i).getCliNome();
+            row[3] = list.get(i).getPetNome();
+            row[4] = list.get(i).getServico();
             model.addRow(row);
         }
     }
@@ -79,7 +83,9 @@ public class TelaAgenda extends javax.swing.JFrame {
         Editar = new javax.swing.JLabel();
         Novo = new javax.swing.JLabel();
         setinha = new javax.swing.JLabel();
+        Atualizar = new javax.swing.JLabel();
         BtEditar = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         BtNovo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabela_Mostra_Agenda = new javax.swing.JTable();
@@ -89,30 +95,54 @@ public class TelaAgenda extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Editar.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
+        Editar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Editar.setText("Editar Atendimento");
-        getContentPane().add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 230, 40));
+        Editar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                EditarMousePressed(evt);
+            }
+        });
+        getContentPane().add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 240, 70));
 
         Novo.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
+        Novo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Novo.setText("Novo Atendimento");
-        getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 210, 40));
+        Novo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                NovoMousePressed(evt);
+            }
+        });
+        getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 40, 240, 70));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                setinhaMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                setinhaMousePressed(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
+        Atualizar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
+        Atualizar.setText("Atualizar");
+        Atualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                AtualizarMousePressed(evt);
+            }
+        });
+        getContentPane().add(Atualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
+
         BtEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
+        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtEditar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 260, 100));
+        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 20, 260, 100));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, -1, -1));
 
         BtNovo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
+        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtNovo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 260, 100));
+        getContentPane().add(BtNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 260, 100));
 
         jTabela_Mostra_Agenda.setFont(new java.awt.Font("Baskerville Old Face", 0, 20)); // NOI18N
         jTabela_Mostra_Agenda.setModel(new javax.swing.table.DefaultTableModel(
@@ -120,7 +150,7 @@ public class TelaAgenda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Horário", "Dono", "Pet", "Tipo de Serviço"
+                "Dia", "Horário", "Dono", "Pet", "Tipo de Serviço"
             }
         ));
         jTabela_Mostra_Agenda.setRowHeight(25);
@@ -128,17 +158,40 @@ public class TelaAgenda extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 910, -1));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1011, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
+    private void AtualizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AtualizarMousePressed
+        mostra_agenda();
+    }//GEN-LAST:event_AtualizarMousePressed
+
+    private void EditarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMousePressed
+        int row = jTabela_Mostra_Agenda.getSelectedRow();
+        String dia = (jTabela_Mostra_Agenda.getModel().getValueAt(row, 0).toString());
+        String horario = (jTabela_Mostra_Agenda.getModel().getValueAt(row, 1).toString());
+        String dono = (jTabela_Mostra_Agenda.getModel().getValueAt(row, 2).toString());
+        String pet = (jTabela_Mostra_Agenda.getModel().getValueAt(row, 3).toString());
+        String servico = (jTabela_Mostra_Agenda.getModel().getValueAt(row, 4).toString());
+        if(dia!=null){
+            System.out.println("DIA!: "+dia);
+            AgendaEditar novo = new AgendaEditar(dia,horario,dono,pet,servico);
+            novo.setVisible(true);
+        }
+    }//GEN-LAST:event_EditarMousePressed
+
+    private void NovoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NovoMousePressed
+        AgendaCadastro novo = new AgendaCadastro();
+        novo.setVisible(true);
+    }//GEN-LAST:event_NovoMousePressed
+
+    private void setinhaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMousePressed
         TelaPrincipal Principal = new TelaPrincipal();
         Principal.setVisible(true);
         dispose();
-    }//GEN-LAST:event_setinhaMouseClicked
+    }//GEN-LAST:event_setinhaMousePressed
 
     /**
      * @param args the command line arguments
@@ -176,11 +229,13 @@ public class TelaAgenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Atualizar;
     private javax.swing.JLabel BtEditar;
     private javax.swing.JLabel BtNovo;
     private javax.swing.JLabel Editar;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTabela_Mostra_Agenda;
     private javax.swing.JLabel setinha;

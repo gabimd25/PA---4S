@@ -11,6 +11,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -64,19 +67,20 @@ public class FuncEditar extends javax.swing.JFrame {
 
         Tl.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Tl.setText("Telefone");
-        getContentPane().add(Tl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 90, 40));
+        getContentPane().add(Tl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 90, 30));
 
         Nm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Nm.setText("Nome");
-        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 40));
+        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 70, 30));
 
         RG.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        RG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         RG.setText("RG");
-        getContentPane().add(RG, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 30, 40));
+        getContentPane().add(RG, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 40, 30));
 
         Endereco.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Endereco.setText("Endereço");
-        getContentPane().add(Endereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 80, 40));
+        getContentPane().add(Endereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 80, 30));
 
         BtExcluir.setBackground(new java.awt.Color(204, 204, 255));
         BtExcluir.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -91,11 +95,6 @@ public class FuncEditar extends javax.swing.JFrame {
         BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
         BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 22)); // NOI18N
         BtCancelar.setText("Cancelar");
-        BtCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtCancelarMouseClicked(evt);
-            }
-        });
         BtCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtCancelarActionPerformed(evt);
@@ -106,11 +105,6 @@ public class FuncEditar extends javax.swing.JFrame {
         BtEditar.setBackground(new java.awt.Color(204, 204, 255));
         BtEditar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtEditar.setText("Editar");
-        BtEditar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtEditarMouseClicked(evt);
-            }
-        });
         BtEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtEditarActionPerformed(evt);
@@ -124,37 +118,32 @@ public class FuncEditar extends javax.swing.JFrame {
                 telActionPerformed(evt);
             }
         });
-        getContentPane().add(tel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 190, 30));
+        getContentPane().add(tel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 190, 30));
 
         end.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         end.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(end, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 390, 30));
+        getContentPane().add(end, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 390, 30));
 
         nome.setEditable(false);
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomeActionPerformed(evt);
-            }
-        });
-        getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 390, 30));
+        getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 390, 30));
 
         rg.setEditable(false);
-        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 160, 30));
+        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 160, 30));
 
         ct.setEditable(false);
-        getContentPane().add(ct, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 280, 30));
-        getContentPane().add(funcao, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 320, 30));
+        getContentPane().add(ct, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 280, 30));
+        getContentPane().add(funcao, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 320, 30));
 
         jLabel3.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel3.setText("CT");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 169, -1, 30));
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel4.setText("Função");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 219, -1, 30));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
@@ -165,8 +154,13 @@ public class FuncEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_telActionPerformed
 
     private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
-        // TODO add your handling code here:
-        //
+        String telefone = tel.getText();
+        String endereco = end.getText();
+        String rgeral = rg.getText();
+        String fun = funcao.getText();
+        new Funcionarios().EditarFunc(telefone,endereco,rgeral,fun);
+        Sucesso.setText("Salvo com Sucesso!");
+        dispose();
     }//GEN-LAST:event_BtEditarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
@@ -176,33 +170,17 @@ public class FuncEditar extends javax.swing.JFrame {
             String excluir = "Delete from Inicial.dbo.Funcionario where FunID="+IDFuncionario;
             PreparedStatement statement = con.prepareStatement(excluir);
             statement.execute();
+            dispose();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
         }
-        dispose();
+        Sucesso.setText("Deletado com Sucesso!");
+       
     }//GEN-LAST:event_BtExcluirActionPerformed
 
-    private void BtEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtEditarMouseClicked
-        // TODO add your handling code here:
-        String telefone = tel.getText();
-        String endereco = end.getText();
-        String rgeral = rg.getText();
-        String fun = funcao.getText();
-        new Funcionarios().EditarFunc(telefone,endereco,rgeral,fun);
-        Sucesso.setText("Salvo com Sucesso!");
-    }//GEN-LAST:event_BtEditarMouseClicked
-
-    private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeActionPerformed
-
-    private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
-        dispose();
-    }//GEN-LAST:event_BtCancelarMouseClicked
-
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_BtCancelarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

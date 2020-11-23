@@ -57,8 +57,8 @@ public class PetsEditar extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         dia = new javax.swing.JComboBox<>();
         mes = new javax.swing.JComboBox<>();
-        ano = new javax.swing.JComboBox<>();
         Sexo = new javax.swing.JComboBox<>();
+        ano = new javax.swing.JTextField();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,11 +109,6 @@ public class PetsEditar extends javax.swing.JFrame {
         BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
         BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 22)); // NOI18N
         BtCancelar.setText("Cancelar");
-        BtCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtCancelarMouseClicked(evt);
-            }
-        });
         BtCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtCancelarActionPerformed(evt);
@@ -124,11 +119,6 @@ public class PetsEditar extends javax.swing.JFrame {
         BtSalvar.setBackground(new java.awt.Color(204, 204, 255));
         BtSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtSalvar.setText("Editar");
-        BtSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvarMouseClicked(evt);
-            }
-        });
         BtSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtSalvarActionPerformed(evt);
@@ -136,18 +126,15 @@ public class PetsEditar extends javax.swing.JFrame {
         });
         getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 110, 40));
 
+        Especie.setEditable(false);
         Especie.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Especie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EspecieActionPerformed(evt);
-            }
-        });
         getContentPane().add(Especie, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 190, 30));
 
         Raca.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Raca.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(Raca, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 140, 30));
 
+        NomePet.setEditable(false);
         NomePet.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(NomePet, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 200, 30));
         getContentPane().add(Doenca, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 210, 30));
@@ -161,7 +148,7 @@ public class PetsEditar extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel4.setText("Data do Nascimento");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel5.setText("Castrado");
@@ -171,29 +158,53 @@ public class PetsEditar extends javax.swing.JFrame {
         jLabel6.setText("RG do Dono");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 100, 30));
 
-        dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia" }));
-        getContentPane().add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 60, -1));
+        dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        getContentPane().add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 60, 30));
 
-        mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês" }));
-        getContentPane().add(mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 80, -1));
-
-        ano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ano" }));
-        getContentPane().add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, -1));
+        mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        getContentPane().add(mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 80, 30));
 
         Sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fêmea", "Macho" }));
         getContentPane().add(Sexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 80, 30));
+
+        ano.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ano.setText("Ano");
+        getContentPane().add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, 30));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void EspecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspecieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EspecieActionPerformed
-
     private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
-        // TODO add your handling code here:
-        //
+         String nome = NomePet.getText();
+        String especie = Especie.getText();
+        String raca = Raca.getText();
+        String doenca = Doenca.getText();
+        String sexoselect = Sexo.getSelectedItem().toString();
+        String rgDono=RG.getText();
+        String data=dia.getSelectedItem().toString() + '-'+ mes.getSelectedItem().toString()+'-'+ano.getText();
+        char sexo;
+        char castrado;
+        if(sexoselect=="Macho"){
+            sexo='M';
+        }
+        else{
+            sexo='F';
+        }
+        if(nao.isSelected()){
+            castrado='N';
+        }
+        else{
+            castrado='S';
+        }                
+        if(nome!=""){
+          new Pets().EditarPet(PetID,raca,sexo,data,doenca,castrado);
+          Sucesso.setVisible(true);
+          Sucesso.setText("Salvo com Sucesso!");
+          dispose();
+        } 
     }//GEN-LAST:event_BtSalvarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
@@ -210,40 +221,8 @@ public class PetsEditar extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_BtExcluirActionPerformed
 
-    private void BtSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvarMouseClicked
-        // TODO add your handling code here:
-        String nome = NomePet.getText();
-        String especie = Especie.getText();
-        String raca = Raca.getText();
-        String doenca = Doenca.getText();
-        String sexoselect = Sexo.getSelectedItem()+"";
-        String rgDono=RG.getText();
-        char sexo;
-        char castrado;
-        if(sexoselect=="Macho"){
-            sexo='M';
-        }
-        else{
-            sexo='F';
-        }
-        if(nao.isSelected()){
-            castrado='N';
-        }
-        else{
-            castrado='S';
-        }                
-        if(nome!=null && nome!=""){
-          new Pets().SalvarPet(nome,especie,raca,sexo,doenca,castrado,rgDono);
-          Sucesso.setText("Salvo com Sucesso!");
-        }        
-    }//GEN-LAST:event_BtSalvarMouseClicked
-
-    private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
-        dispose();
-    }//GEN-LAST:event_BtCancelarMouseClicked
-
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_BtCancelarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -347,7 +326,7 @@ public class PetsEditar extends javax.swing.JFrame {
     private javax.swing.JLabel Raca1;
     private javax.swing.JComboBox<String> Sexo;
     private javax.swing.JLabel Sucesso;
-    private javax.swing.JComboBox<String> ano;
+    private javax.swing.JTextField ano;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> dia;
     private javax.swing.JLabel jLabel3;

@@ -5,7 +5,17 @@
  */
 
 package View.Cadastro;
-import Model.Fornecedores;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gabim
@@ -26,30 +36,38 @@ public class AgendaCadastro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Nm = new javax.swing.JLabel();
-        Tl = new javax.swing.JLabel();
-        Eml = new javax.swing.JLabel();
+        Horario = new javax.swing.JLabel();
+        Dono = new javax.swing.JLabel();
+        Serv = new javax.swing.JLabel();
+        Pet = new javax.swing.JLabel();
         BtSair = new javax.swing.JButton();
         BtSalvar = new javax.swing.JButton();
-        Telefone = new javax.swing.JTextField();
-        Email = new javax.swing.JTextField();
-        Nome = new javax.swing.JTextField();
+        dono = new javax.swing.JTextField();
+        serv = new javax.swing.JTextField();
+        pet = new javax.swing.JTextField();
+        hr = new javax.swing.JTextField();
+        dia = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Nm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        Nm.setText("Nome");
-        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 70, 40));
+        Horario.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Horario.setText("Horário");
+        getContentPane().add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 70, 30));
 
-        Tl.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        Tl.setText("Telefone");
-        getContentPane().add(Tl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 90, 40));
+        Dono.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Dono.setText("RG Dono");
+        getContentPane().add(Dono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 80, 30));
 
-        Eml.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        Eml.setText("Email");
-        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 80, 40));
+        Serv.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Serv.setText("Serviço");
+        getContentPane().add(Serv, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 60, 30));
+
+        Pet.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Pet.setText("Pet");
+        getContentPane().add(Pet, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 60, 30));
 
         BtSair.setBackground(new java.awt.Color(204, 204, 255));
         BtSair.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -71,48 +89,99 @@ public class AgendaCadastro extends javax.swing.JFrame {
         });
         getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 110, 40));
 
-        Telefone.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Telefone.addActionListener(new java.awt.event.ActionListener() {
+        dono.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        dono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TelefoneActionPerformed(evt);
+                donoActionPerformed(evt);
             }
         });
-        getContentPane().add(Telefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 190, 30));
+        getContentPane().add(dono, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 190, 30));
 
-        Email.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Email.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 390, 30));
+        serv.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        serv.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(serv, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 190, 30));
 
-        Nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Nome.addActionListener(new java.awt.event.ActionListener() {
+        pet.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        pet.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(pet, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 190, 30));
+
+        hr.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        hr.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        hr.setText("0:0");
+        hr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NomeActionPerformed(evt);
+                hrActionPerformed(evt);
             }
         });
-        getContentPane().add(Nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
+        getContentPane().add(hr, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, 90, 30));
+
+        dia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        dia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        dia.setText("0-0-0");
+        getContentPane().add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 120, 30));
+
+        jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        jLabel1.setText("Dia");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 50, 30));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefoneActionPerformed
+    private void donoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TelefoneActionPerformed
+    }//GEN-LAST:event_donoActionPerformed
 
     private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
-        String nome = Nome.getText();
-        String tel=Telefone.getText();
-        String email=Email.getText();
-        new Fornecedores().SalvarForn(nome,tel,email);
+        String rg = dono.getText();
+        String Dia = dia.getText();
+        String horario=hr.getText(); 
+        String nomePet=pet.getText();
+        String servico = serv.getText();
+        int idPet = 0,idDono = 0;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado = "SELECT PetID,PetNome,PetCliID FROM Inicial.dbo.Pet WHERE PetCliID = (SELECT CliID FROM Inicial.dbo.Cliente WHERE CliRG = '"+rg+"') AND PetNome LIKE '%"+nomePet+"%'" ;
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(selecionado);
+            
+            if(rs.next()){
+                idPet = rs.getInt("PetID");
+                idDono = rs.getInt("PetCliID");
+            }
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+        if(idPet!=0){
+            try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con2 = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            String selecionado2 = "INSERT INTO Inicial.dbo.Agenda VALUES ('"+Dia+"','"+horario+"',"+idDono+","+idPet+",'"+servico+"')" ;
+            PreparedStatement statement = con2.prepareStatement(selecionado2);
+             statement.execute();
+             statement.close();
+             con2.close();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,e);
+            }
+           dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Cadastro nao encontrado!");
+        }
     }//GEN-LAST:event_BtSalvarActionPerformed
 
     private void BtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSairActionPerformed
         dispose();
     }//GEN-LAST:event_BtSairActionPerformed
 
-    private void NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeActionPerformed
+    private void hrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NomeActionPerformed
+    }//GEN-LAST:event_hrActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,13 +228,17 @@ public class AgendaCadastro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtSair;
     private javax.swing.JButton BtSalvar;
-    private javax.swing.JTextField Email;
-    private javax.swing.JLabel Eml;
+    private javax.swing.JLabel Dono;
     private javax.swing.JLabel Fundo;
-    private javax.swing.JLabel Nm;
-    private javax.swing.JTextField Nome;
-    private javax.swing.JTextField Telefone;
-    private javax.swing.JLabel Tl;
+    private javax.swing.JLabel Horario;
+    private javax.swing.JLabel Pet;
+    private javax.swing.JLabel Serv;
+    private javax.swing.JTextField dia;
+    private javax.swing.JTextField dono;
+    private javax.swing.JTextField hr;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField pet;
+    private javax.swing.JTextField serv;
     // End of variables declaration//GEN-END:variables
 
 }

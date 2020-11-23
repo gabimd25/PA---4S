@@ -36,16 +36,14 @@ public class Funcionarios {
          }
         
     }
-    public void EditarFunc(String nome,String telefone,String endereco,String rg, String funcao){
+    public void EditarFunc(String telefone,String endereco,String rg, String funcao){
         
         try {
             Connection conexao = new Conexao().getConnection();
             System.out.println("Iniciando comando!!!!");
-            String sql = "UPDATE Inicial.dbo.Funcionario SET FunTel="+telefone+", FunEnd ="+endereco+", FunFun="+funcao+"WHERE FunRG="+rg+";";
-            //insert into dbo.Fornecedor(ForNome,ForTel,Foremail) values('LuArtes','323287898','lulu@hotmail.com');
+            String sql = "UPDATE Inicial.dbo.Funcionario SET FunTel='"+telefone+"', FunEnd ='"+endereco+"', FunFun='"+funcao+"' WHERE FunRG="+rg+";";
             PreparedStatement statement = conexao.prepareStatement(sql);
-            statement.execute();
-            
+            statement.execute();            
             statement.close();
             conexao.close();
         } catch (SQLException ex) {

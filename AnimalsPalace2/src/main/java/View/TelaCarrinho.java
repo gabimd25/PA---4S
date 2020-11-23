@@ -5,17 +5,31 @@
  */
 package View;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gabim
  */
 public class TelaCarrinho extends javax.swing.JFrame {
-
+    private ArrayList<Prod> listaProdutos = new ArrayList<>();
+    float totalItem,Total;
+    int IDProduto,tamanho;
     /**
      * Creates new form TelaAgenda
      */
-    public TelaCarrinho() {
+    public TelaCarrinho(ArrayList<Prod> produtos) {
         initComponents();
+        listaProdutos= produtos;
+        tamanho=produtos.size();
+        mostra_prod(listaProdutos);
     }
 
     /**
@@ -27,14 +41,16 @@ public class TelaCarrinho extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Editar = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        Novo = new javax.swing.JLabel();
+        Excluir = new javax.swing.JLabel();
+        TotalCompra = new javax.swing.JTextField();
+        Finalizar = new javax.swing.JLabel();
+        Cancelar = new javax.swing.JLabel();
         Valor = new javax.swing.JLabel();
         Itens = new javax.swing.JLabel();
         setinha = new javax.swing.JLabel();
         BtEditar = new javax.swing.JLabel();
-        BtNovo = new javax.swing.JLabel();
+        BtCancelar1 = new javax.swing.JLabel();
+        BtCancelar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         Fundo = new javax.swing.JLabel();
@@ -42,90 +58,161 @@ public class TelaCarrinho extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Editar.setFont(new java.awt.Font("Brush Script MT", 0, 40)); // NOI18N
-        Editar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Editar.setText("Cancelar");
-        getContentPane().add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 540, 240, 70));
+        Excluir.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
+        Excluir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Excluir.setText("Excluir");
+        Excluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ExcluirMousePressed(evt);
+            }
+        });
+        getContentPane().add(Excluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 540, 120, 60));
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 540, 250, 70));
+        TotalCompra.setEditable(false);
+        TotalCompra.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
+        TotalCompra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(TotalCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 540, 250, 70));
 
-        Novo.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
-        Novo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Novo.setText("Finalizar Compra");
-        getContentPane().add(Novo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 540, 240, 70));
+        Finalizar.setFont(new java.awt.Font("Brush Script MT", 0, 36)); // NOI18N
+        Finalizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Finalizar.setText("Finalizar Compra");
+        Finalizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                FinalizarMousePressed(evt);
+            }
+        });
+        getContentPane().add(Finalizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 540, 240, 70));
+
+        Cancelar.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
+        Cancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Cancelar.setText("Cancelar");
+        Cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                CancelarMousePressed(evt);
+            }
+        });
+        getContentPane().add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, 120, 60));
 
         Valor.setFont(new java.awt.Font("Baskerville Old Face", 0, 42)); // NOI18N
         Valor.setText("Total:");
-        getContentPane().add(Valor, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 560, -1, -1));
+        getContentPane().add(Valor, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 560, -1, -1));
 
         Itens.setFont(new java.awt.Font("Baskerville Old Face", 0, 36)); // NOI18N
         Itens.setText("Itens do Carrinho");
         getContentPane().add(Itens, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 270, 50));
 
-        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
+        setinha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\setinha2.png")); // NOI18N
         setinha.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                setinhaMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                setinhaMousePressed(evt);
             }
         });
         getContentPane().add(setinha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         BtEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
+        BtEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
         BtEditar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 260, 100));
+        getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 520, 260, 100));
 
-        BtNovo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao.png")); // NOI18N
-        BtNovo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 260, 100));
+        BtCancelar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BtCancelar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
+        BtCancelar1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(BtCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 530, 140, 80));
+
+        BtCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BtCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
+        BtCancelar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 530, 140, 80));
 
         jTable1.setFont(new java.awt.Font("Baskerville Old Face", 0, 20)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Horário", "Dono", "Pet", "Tipo de Serviço"
+                "ID", "Nome", "Preço", "Quantidade", "TotalItem"
             }
         ));
         jTable1.setRowHeight(25);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable1MousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 910, 370));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1011, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void setinhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMouseClicked
+    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        int row = jTable1.getSelectedRow();
+    }//GEN-LAST:event_jTable1MousePressed
+
+    private void CancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelarMousePressed
+        dispose();
+    }//GEN-LAST:event_CancelarMousePressed
+
+    private void ExcluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExcluirMousePressed
+        int excluir = jTable1.getSelectedRow();
+        listaProdutos.remove(excluir);
+        tamanho--;
+        mostra_prod(listaProdutos);
+    }//GEN-LAST:event_ExcluirMousePressed
+
+    private void FinalizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FinalizarMousePressed
+        String query,produ,quant;
+        int quantidade;
+        ArrayList<Prod> list = listaProdutos;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            System.out.println("Tam: "+tamanho);
+            for(int j=0; j<tamanho; j++){
+                produ = (jTable1.getModel().getValueAt(j, 0).toString());
+                IDProduto= Integer.parseInt(produ);
+                quant= (jTable1.getModel().getValueAt(j, 3).toString());
+                quantidade=Integer.parseInt(quant);
+                System.out.println("ID: "+IDProduto);
+                query="UPDATE Inicial.dbo.Produto SET ProQuant =((SELECT ProQuant from Inicial.dbo.Produto WHERE ProID="+IDProduto+")-"+quantidade+") WHERE ProID="+IDProduto;
+                PreparedStatement statement = con.prepareStatement(query);
+                statement.execute();
+            }
+            dispose();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+    }//GEN-LAST:event_FinalizarMousePressed
+
+    private void setinhaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMousePressed
         TelaPrincipal Principal = new TelaPrincipal();
         Principal.setVisible(true);
         dispose();
-    }//GEN-LAST:event_setinhaMouseClicked
+    }//GEN-LAST:event_setinhaMousePressed
 
+    public void mostra_prod(ArrayList<Prod> produtos){
+        ArrayList<Prod> list = listaProdutos;
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        Object[] row = new Object[6];
+        Total=0;
+        for(int i=0; i<listaProdutos.size(); i++){
+            row[0] = list.get(i).getProID();
+            row[1] = list.get(i).getProNome();
+            row[2] = "R$ "+list.get(i).getProPre();
+            row[3] = list.get(i).getProQuant();
+            totalItem=list.get(i).getProPre()*list.get(i).getProQuant();
+            row[4] = totalItem;
+            Total+=totalItem;
+            model.addRow(row);
+        }
+        TotalCompra.setText(String.valueOf(Total));
+    }
     /**
      * @param args the command line arguments
      */
@@ -159,22 +246,23 @@ public class TelaCarrinho extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaCarrinho().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BtCancelar;
+    private javax.swing.JLabel BtCancelar1;
     private javax.swing.JLabel BtEditar;
-    private javax.swing.JLabel BtNovo;
-    private javax.swing.JLabel Editar;
+    private javax.swing.JLabel Cancelar;
+    private javax.swing.JLabel Excluir;
+    private javax.swing.JLabel Finalizar;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Itens;
-    private javax.swing.JLabel Novo;
+    private javax.swing.JTextField TotalCompra;
     private javax.swing.JLabel Valor;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel setinha;
     // End of variables declaration//GEN-END:variables
 }

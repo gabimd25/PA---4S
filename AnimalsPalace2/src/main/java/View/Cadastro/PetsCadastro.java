@@ -47,7 +47,7 @@ public class PetsCadastro extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         dia = new javax.swing.JComboBox<>();
         mes = new javax.swing.JComboBox<>();
-        ano = new javax.swing.JComboBox<>();
+        ano = new javax.swing.JTextField();
         Sexo = new javax.swing.JComboBox<>();
         Fundo = new javax.swing.JLabel();
 
@@ -55,7 +55,7 @@ public class PetsCadastro extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Sucesso.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        getContentPane().add(Sucesso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 160, 30));
+        getContentPane().add(Sucesso, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 160, 30));
 
         buttonGroup1.add(sim);
         sim.setText("Sim");
@@ -95,11 +95,6 @@ public class PetsCadastro extends javax.swing.JFrame {
         BtSalvar1.setBackground(new java.awt.Color(204, 204, 255));
         BtSalvar1.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtSalvar1.setText("Salvar");
-        BtSalvar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvar1MouseClicked(evt);
-            }
-        });
         BtSalvar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtSalvar1ActionPerformed(evt);
@@ -108,11 +103,6 @@ public class PetsCadastro extends javax.swing.JFrame {
         getContentPane().add(BtSalvar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 110, 40));
 
         Especie.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Especie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EspecieActionPerformed(evt);
-            }
-        });
         getContentPane().add(Especie, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 190, 30));
 
         Raca.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -140,45 +130,33 @@ public class PetsCadastro extends javax.swing.JFrame {
         jLabel6.setText("RG do Dono");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 100, 30));
 
-        dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia" }));
+        dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         getContentPane().add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 60, -1));
 
-        mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês" }));
-        getContentPane().add(mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 80, -1));
+        mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        getContentPane().add(mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 80, -1));
 
-        ano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ano" }));
-        getContentPane().add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, -1));
+        ano.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ano.setText("Ano");
+        getContentPane().add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 220, 60, -1));
 
         Sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fêmea", "Macho" }));
-        getContentPane().add(Sexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 60, 30));
+        getContentPane().add(Sexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 90, 30));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void EspecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspecieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EspecieActionPerformed
-
     private void BtSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvar1ActionPerformed
-        // TODO add your handling code here:
-        //
-    }//GEN-LAST:event_BtSalvar1ActionPerformed
-
-    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        dispose();
-    }//GEN-LAST:event_BtCancelarActionPerformed
-
-    private void BtSalvar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvar1MouseClicked
-        // TODO add your handling code here:
         String nome = NomePet.getText();
         String especie = Especie.getText();
         String raca = Raca.getText();
         String doenca = Doenca.getText();
-        String sexoselect = Sexo.getSelectedItem()+"";
+        String sexoselect = Sexo.getSelectedItem().toString();
         String rgDono=RG.getText();
+        String data=dia.getSelectedItem().toString() + '-'+ mes.getSelectedItem().toString()+'-'+ano.getText();
         char sexo;
         char castrado;
         if(sexoselect=="Macho"){
@@ -193,11 +171,17 @@ public class PetsCadastro extends javax.swing.JFrame {
         else{
             castrado='S';
         }                
-        if(nome!=null && nome!=""){
-          new Pets().SalvarPet(nome,especie,raca,sexo,doenca,castrado,rgDono);
+        if(nome!=""){
+          new Pets().SalvarPet(nome,especie,raca,sexo,data,doenca,castrado,rgDono);
+          Sucesso.setVisible(true);
           Sucesso.setText("Salvo com Sucesso!");
-        }        
-    }//GEN-LAST:event_BtSalvar1MouseClicked
+          dispose();
+        } 
+    }//GEN-LAST:event_BtSalvar1ActionPerformed
+
+    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_BtCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,7 +235,7 @@ public class PetsCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel Raca1;
     private javax.swing.JComboBox<String> Sexo;
     private javax.swing.JLabel Sucesso;
-    private javax.swing.JComboBox<String> ano;
+    private javax.swing.JTextField ano;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> dia;
     private javax.swing.JLabel jLabel3;

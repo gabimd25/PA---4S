@@ -62,7 +62,7 @@ public class Login_Func extends javax.swing.JFrame {
         Senha.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         getContentPane().add(Senha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 280, 40));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();

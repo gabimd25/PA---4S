@@ -5,6 +5,7 @@
  */
 package View;
 
+import View.Cadastro.Login_Func;
 import dao.Conexao;
 import java.awt.Color;
 import java.sql.Connection;
@@ -85,13 +86,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTabela_Mostra_Agenda2 = new javax.swing.JTable();
         Logo = new javax.swing.JLabel();
         DataDia = new javax.swing.JLabel();
-        Donos = new javax.swing.JLabel();
-        Pets = new javax.swing.JLabel();
-        Agenda = new javax.swing.JLabel();
-        Produtos = new javax.swing.JLabel();
-        Fornecedores = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         Funcionarios = new javax.swing.JLabel();
+        Fornecedores = new javax.swing.JLabel();
+        Produtos = new javax.swing.JLabel();
+        Agenda = new javax.swing.JLabel();
+        Pets = new javax.swing.JLabel();
+        Donos = new javax.swing.JLabel();
+        Comprar = new javax.swing.JButton();
         Fundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -124,76 +125,76 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         DataDia.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         DataDia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(DataDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 540, 250, 60));
-
-        Donos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        Donos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Donos.setText("| Donos |");
-        Donos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                DonosMouseClicked(evt);
-            }
-        });
-        getContentPane().add(Donos, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, -1, 40));
-
-        Pets.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        Pets.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Pets.setText("Pets |");
-        Pets.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PetsMouseClicked(evt);
-            }
-        });
-        getContentPane().add(Pets, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, 40));
-
-        Agenda.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        Agenda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Agenda.setText("Agenda |");
-        Agenda.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AgendaMouseClicked(evt);
-            }
-        });
-        getContentPane().add(Agenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, -1, 40));
-
-        Produtos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        Produtos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Produtos.setText("Produtos |");
-        Produtos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ProdutosMouseClicked(evt);
-            }
-        });
-        getContentPane().add(Produtos, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, -1, 40));
-
-        Fornecedores.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        Fornecedores.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Fornecedores.setText("Fornecedores |");
-        Fornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                FornecedoresMouseClicked(evt);
-            }
-        });
-        getContentPane().add(Fornecedores, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 240, -1, 40));
-
-        jButton1.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
-        jButton1.setText("Realizar Compra");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 390, 260, 80));
+        getContentPane().add(DataDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 540, 260, 60));
 
         Funcionarios.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
         Funcionarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Funcionarios.setText("Funcionários |");
         Funcionarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                FuncionariosMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                FuncionariosMousePressed(evt);
             }
         });
-        getContentPane().add(Funcionarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, -1, 40));
+        getContentPane().add(Funcionarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, 200, 40));
+
+        Fornecedores.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        Fornecedores.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Fornecedores.setText("Fornecedores |");
+        Fornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                FornecedoresMousePressed(evt);
+            }
+        });
+        getContentPane().add(Fornecedores, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 240, 200, 40));
+
+        Produtos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        Produtos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Produtos.setText("Produtos |");
+        Produtos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ProdutosMousePressed(evt);
+            }
+        });
+        getContentPane().add(Produtos, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 240, 150, 40));
+
+        Agenda.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        Agenda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Agenda.setText("Agenda |");
+        Agenda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                AgendaMousePressed(evt);
+            }
+        });
+        getContentPane().add(Agenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 240, 130, 40));
+
+        Pets.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        Pets.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Pets.setText("Pets |");
+        Pets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                PetsMousePressed(evt);
+            }
+        });
+        getContentPane().add(Pets, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, 40));
+
+        Donos.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        Donos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Donos.setText("| Donos |");
+        Donos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                DonosMousePressed(evt);
+            }
+        });
+        getContentPane().add(Donos, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, -1, 40));
+
+        Comprar.setFont(new java.awt.Font("Monotype Corsiva", 0, 36)); // NOI18N
+        Comprar.setText("Realizar Compra");
+        Comprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComprarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 390, 260, 80));
 
         Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\fundo4.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -201,47 +202,47 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void FornecedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FornecedoresMouseClicked
-        TelaFornecedores Forn = new TelaFornecedores();
-        Forn.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_FornecedoresMouseClicked
-
-    private void AgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgendaMouseClicked
-        TelaAgenda Agenda = new TelaAgenda();
-        Agenda.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_AgendaMouseClicked
-
-    private void PetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PetsMouseClicked
-        TelaPets Pets = new TelaPets();
-        Pets.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_PetsMouseClicked
-
-    private void DonosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DonosMouseClicked
-        TelaDonos Donos = new TelaDonos();
-        Donos.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_DonosMouseClicked
-
-    private void FuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FuncionariosMouseClicked
-        TelaFuncionarios Func = new TelaFuncionarios();
-        Func.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_FuncionariosMouseClicked
-
-    private void ProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProdutosMouseClicked
-        TelaProdutos Prod = new TelaProdutos();
-        Prod.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_ProdutosMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
         TelaCompras Compras = new TelaCompras();
         Compras.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ComprarActionPerformed
+
+    private void DonosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DonosMousePressed
+        TelaDonos Donos = new TelaDonos();
+        Donos.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_DonosMousePressed
+
+    private void PetsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PetsMousePressed
+        TelaPets Pets = new TelaPets();
+        Pets.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_PetsMousePressed
+
+    private void AgendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgendaMousePressed
+        TelaAgenda Agenda = new TelaAgenda();
+        Agenda.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_AgendaMousePressed
+
+    private void ProdutosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProdutosMousePressed
+        TelaProdutos Prod = new TelaProdutos();
+        Prod.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_ProdutosMousePressed
+
+    private void FornecedoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FornecedoresMousePressed
+        TelaFornecedores Forn = new TelaFornecedores();
+        Forn.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_FornecedoresMousePressed
+
+    private void FuncionariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FuncionariosMousePressed
+        Login_Func Func = new Login_Func();
+        Func.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_FuncionariosMousePressed
 
     /**
      * @param args the command line arguments
@@ -280,6 +281,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Agenda;
+    private javax.swing.JButton Comprar;
     private javax.swing.JLabel DataDia;
     private javax.swing.JLabel Donos;
     private javax.swing.JLabel Fornecedores;
@@ -288,7 +290,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JLabel Pets;
     private javax.swing.JLabel Produtos;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTabela_Mostra_Agenda2;
     // End of variables declaration//GEN-END:variables

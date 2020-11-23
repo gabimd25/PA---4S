@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -56,7 +59,7 @@ public class ProdutoCadastro extends javax.swing.JFrame {
 
         Nm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Nm.setText("Nome");
-        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 70, 40));
+        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 70, 30));
 
         Eml.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Eml.setText("Preço");
@@ -79,11 +82,6 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         BtSalvar1.setBackground(new java.awt.Color(204, 204, 255));
         BtSalvar1.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtSalvar1.setText("Salvar");
-        BtSalvar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvar1MouseClicked(evt);
-            }
-        });
         BtSalvar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtSalvar1ActionPerformed(evt);
@@ -98,11 +96,6 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         getContentPane().add(forn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 360, 30));
 
         desc.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        desc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descActionPerformed(evt);
-            }
-        });
         getContentPane().add(desc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 370, 30));
 
         preco.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -111,34 +104,20 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         getContentPane().add(preco, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, 110, 30));
 
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 390, 30));
+        getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 390, 30));
         getContentPane().add(qtd, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 100, 30));
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel4.setText("Quantidade");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void descActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_descActionPerformed
-
     private void BtSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvar1ActionPerformed
-        // TODO add your handling code here:
-        //
-    }//GEN-LAST:event_BtSalvar1ActionPerformed
-
-    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        dispose();
-    }//GEN-LAST:event_BtCancelarActionPerformed
-
-    private void BtSalvar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvar1MouseClicked
-        // TODO add your handling code here:
         int IDForn=0;
         try{
             String Nome = forn.getText();
@@ -166,8 +145,14 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         if(!"".equals(Pnome) && IDForn!=0){
           new Produtos().SalvarProd(IDForn,Pnome,Pdesc,Ppreco,Pqtd);
           Sucesso.setText("Salvo com Sucesso!");
-        }        
-    }//GEN-LAST:event_BtSalvar1MouseClicked
+          
+           dispose();
+        }
+    }//GEN-LAST:event_BtSalvar1ActionPerformed
+
+    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_BtCancelarActionPerformed
 
     /**
      * @param args the command line arguments

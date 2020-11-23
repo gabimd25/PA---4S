@@ -6,6 +6,9 @@
 
 package View.Cadastro;
 import Model.Fornecedores;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Gabim
@@ -91,7 +94,7 @@ public class FornCadastro extends javax.swing.JFrame {
         });
         getContentPane().add(Nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
@@ -106,6 +109,7 @@ public class FornCadastro extends javax.swing.JFrame {
         String tel=Telefone.getText();
         String email=Email.getText();
         new Fornecedores().SalvarForn(nome,tel,email);
+        dispose();
     }//GEN-LAST:event_BtSalvarActionPerformed
 
     private void BtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSairActionPerformed

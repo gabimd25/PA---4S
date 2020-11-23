@@ -8,11 +8,8 @@ package Model;
 import View.TelaFornecedores;
 import dao.Conexao;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,17 +17,17 @@ import java.util.logging.Logger;
  *
  * @author Gabim
  */
-public class Pets {
-    int idDono;
-    public void SalvarPet(String Petnome,String esp,String raca,char sexo,String data,String doenca,char cast,String rgDono){
+public class Produtos {
+    public void SalvarProd(int id,String nome,String descricao,float preco,int quanti){
         try {
-            String sql = "insert into Inicial.dbo.Pet(PetCliID,PetNome,PetEsp,Petraca,PetSexo,PetData,PetDoen,PetCast) values((SELECT CliID from Inicial.dbo.Cliente WHERE CliRG='"+rgDono+"'),'" + Petnome + "','" + esp + "','" + raca + "','" + sexo + "','" + data + "','" + doenca + "','" + cast + "')";
-            Connection conexao = new Conexao().getConnection();
-            System.out.println("Iniciando comando!!!!");
-            PreparedStatement statement = conexao.prepareStatement(sql);
-            statement.execute();
-            statement.close();
-            conexao.close();
+             Connection conexao = new Conexao().getConnection();
+             System.out.println("Iniciando comando!!!!");
+             String sql = "insert into dbo.Produto(ProForID,ProNome,ProDesc,ProPre,ProQuant) values('" + id + "','" + nome + "','" + descricao +"','"+ preco + "','"+ quanti +"');";
+             PreparedStatement statement = conexao.prepareStatement(sql);
+             statement.execute();
+
+             statement.close();
+             conexao.close();
          } catch (SQLException ex) {
              Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
          } catch (ClassNotFoundException ex) {
@@ -38,12 +35,12 @@ public class Pets {
          }
         
     }
-    public void EditarPet(int IDPet,String raca,char sexo,String data,String doenca,char cast){
+    public void EditarProd(String nome,String telefone,String email){
         
         try {
             Connection conexao = new Conexao().getConnection();
             System.out.println("Iniciando comando!!!!");
-            String sql = "UPDATE Inicial.dbo.Pet SET PetSexo ='"+sexo+"', PetCast='"+cast+"', Petraca='"+raca+"', PetDoen='"+doenca+"', PetData='"+data+"' WHERE PetID="+IDPet;
+            String sql = "UPDATE Inicial.dbo.Fornecedor SET ForTel="+telefone+", ForEmail ="+email+"WHERE ForNome='+nome+';";
             //insert into dbo.Fornecedor(ForNome,ForTel,Foremail) values('LuArtes','323287898','lulu@hotmail.com');
             PreparedStatement statement = conexao.prepareStatement(sql);
             statement.execute();
@@ -55,6 +52,10 @@ public class Pets {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TelaFornecedores.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void ExcluirForn(int id){
+        //Encontrar o ID do Fornecedor selecionado para realizar o delete
+        //String sql = "Delete from Inicial.dbo.Fornecedor where ForID=";
     }
     /*public void TabelaForn(){
         tabela.addRow(new Object[]{

@@ -12,6 +12,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,10 +22,17 @@ import javax.swing.JOptionPane;
  * @author Gabim
  */
 public class AgendaEditar extends javax.swing.JFrame {
-
-    int IDFornecedor;
+    int IDPet,IDDono;
+    String nomeDono,nomePet,servico;
+    String Dia, Hora;
+    
     /** Creates new form FornCadastro */
-    public AgendaEditar() {
+    public AgendaEditar(String dia, String hora, String Dono, String Pet, String Servico) {
+        nomeDono = Dono;
+        nomePet = Pet;
+        Dia = dia;
+        Hora = hora;
+        servico = Servico;
         initComponents();
     }
 
@@ -36,13 +46,17 @@ public class AgendaEditar extends javax.swing.JFrame {
     private void initComponents() {
 
         Nm = new javax.swing.JLabel();
-        Tl = new javax.swing.JLabel();
+        RG = new javax.swing.JLabel();
         Eml = new javax.swing.JLabel();
+        Eml1 = new javax.swing.JLabel();
+        Nm1 = new javax.swing.JLabel();
         BExcluir = new javax.swing.JButton();
         BtEditar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        rg = new javax.swing.JTextField();
+        serv = new javax.swing.JTextField();
+        dia = new javax.swing.JTextField();
+        pet = new javax.swing.JTextField();
+        horario = new javax.swing.JTextField();
         Cancelar = new javax.swing.JButton();
         Fundo = new javax.swing.JLabel();
 
@@ -55,16 +69,24 @@ public class AgendaEditar extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Nm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        Nm.setText("Nome");
-        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 70, 40));
+        Nm.setText("Dia");
+        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 60, 30));
 
-        Tl.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        Tl.setText("Telefone");
-        getContentPane().add(Tl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 90, 40));
+        RG.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        RG.setText("RG Dono");
+        getContentPane().add(RG, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 80, 30));
 
         Eml.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        Eml.setText("Email");
-        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 80, 40));
+        Eml.setText("Pet");
+        getContentPane().add(Eml, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 40, 30));
+
+        Eml1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Eml1.setText("Serviço");
+        getContentPane().add(Eml1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 60, 30));
+
+        Nm1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Nm1.setText("Horário");
+        getContentPane().add(Nm1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 70, 30));
 
         BExcluir.setBackground(new java.awt.Color(204, 204, 255));
         BExcluir.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -86,25 +108,28 @@ public class AgendaEditar extends javax.swing.JFrame {
         });
         getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 110, 40));
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 190, 30));
+        rg.setEditable(false);
+        rg.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 190, 30));
 
-        jTextField2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 390, 30));
+        serv.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        serv.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(serv, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 190, 30));
 
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
+        dia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        dia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        dia.setText("0-0-0");
+        getContentPane().add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 110, 30));
+
+        pet.setEditable(false);
+        pet.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        pet.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        getContentPane().add(pet, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 190, 30));
+
+        horario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        horario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        horario.setText("0:0");
+        getContentPane().add(horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 130, 30));
 
         Cancelar.setBackground(new java.awt.Color(204, 204, 255));
         Cancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 22)); // NOI18N
@@ -115,37 +140,35 @@ public class AgendaEditar extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 110, 40));
+
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
-        String nome = jTextField3.getText();
-        String tel=jTextField1.getText(); 
-        String email=jTextField2.getText();
+        String novodia = dia.getText();
+        String novahr=horario.getText(); 
+        String novoserv=serv.getText();
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String editar = "UPDATE Fornecedor SET ForNome = '"+nome+"', ForTel = '"+tel+"', Foremail = '"+email+"' WHERE ForID = '"+IDFornecedor+"'  ";
+            String editar = "UPDATE Inicial.dbo.Agenda SET AgendaDia='"+novodia+"', AgendaHora='"+novahr+"', Servico='"+novoserv+"' WHERE AgendaDia='"+Dia+"' AND AgendaHora='"+Hora+"' AND AgendaCliID="+IDDono+" AND AgendaPetID="+IDPet;
             PreparedStatement statement = con.prepareStatement(editar);
             statement.execute();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
         }
-        //EditarForn(forn,tel,email);
+        dispose();
     }//GEN-LAST:event_BtEditarActionPerformed
 
     private void BExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BExcluirActionPerformed
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String excluir = "Delete from Inicial.dbo.Produto where ProForID="+IDFornecedor+"\nDelete from Inicial.dbo.Fornecedor where ForID="+IDFornecedor;
+            String excluir = "DELETE FROM Inicial.dbo.Agenda  WHERE AgendaDia='"+Dia+"' AND AgendaHora='"+Hora+"' AND AgendaCliID="+IDDono+" AND AgendaPetID="+IDPet;
             PreparedStatement statement = con.prepareStatement(excluir);
             statement.execute();
         }
@@ -164,20 +187,21 @@ public class AgendaEditar extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
          try{
-            String Nome = jTextField3.getText();
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Fornecedor WHERE ForNome = '"+Nome+"'";
+            String selecionado = "SELECT AgendaCliID, AgendaPetID,AgendaDia,AgendaHora,(SELECT CliRG from Inicial.dbo.Cliente where CliID = AgendaCliID) RG,(SELECT PetNome from Inicial.dbo.Pet WHERE PetID = AgendaPetID) Pet,Servico" +
+" from Inicial.dbo.Agenda WHERE AgendaHora = '"+Hora+"' AND AgendaDia = '"+Dia+"' AND Servico= '"+servico+"'";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(selecionado);
             
             if(rs.next()){
-                String tel = rs.getString("ForTel");
-                jTextField1.setText(tel);
-                String email = rs.getString("Foremail");
-                jTextField2.setText(email);
-                int id = rs.getInt("ForID");
-                IDFornecedor = id;
+                dia.setText(rs.getString("AgendaDia"));
+                horario.setText(rs.getString("AgendaHora"));
+                rg.setText(rs.getString("RG"));
+                pet.setText(rs.getString("Pet"));
+                serv.setText(rs.getString("Servico"));
+                IDDono = rs.getInt("AgendaCliID");
+                IDPet = rs.getInt("AgendaPetID");
             }
         
         }catch(Exception e){
@@ -185,10 +209,6 @@ public class AgendaEditar extends javax.swing.JFrame {
         }
     
     }//GEN-LAST:event_formWindowOpened
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,7 +243,6 @@ public class AgendaEditar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgendaEditar().setVisible(true);
             }
         });
     }
@@ -233,12 +252,16 @@ public class AgendaEditar extends javax.swing.JFrame {
     private javax.swing.JButton BtEditar;
     private javax.swing.JButton Cancelar;
     private javax.swing.JLabel Eml;
+    private javax.swing.JLabel Eml1;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Nm;
-    private javax.swing.JLabel Tl;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    public static javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel Nm1;
+    private javax.swing.JLabel RG;
+    public static javax.swing.JTextField dia;
+    public static javax.swing.JTextField horario;
+    private javax.swing.JTextField pet;
+    private javax.swing.JTextField rg;
+    private javax.swing.JTextField serv;
     // End of variables declaration//GEN-END:variables
 
 }

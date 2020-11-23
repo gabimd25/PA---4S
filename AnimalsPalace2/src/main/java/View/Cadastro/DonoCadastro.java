@@ -6,6 +6,9 @@
 
 package View.Cadastro;
 import Model.Donos;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Gabim
@@ -67,11 +70,6 @@ public class DonoCadastro extends javax.swing.JFrame {
         BtSalvar1.setBackground(new java.awt.Color(204, 204, 255));
         BtSalvar1.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtSalvar1.setText("Salvar");
-        BtSalvar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvar1MouseClicked(evt);
-            }
-        });
         BtSalvar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtSalvar1ActionPerformed(evt);
@@ -102,7 +100,7 @@ public class DonoCadastro extends javax.swing.JFrame {
         jLabel4.setText("RG");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
@@ -113,16 +111,6 @@ public class DonoCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_telActionPerformed
 
     private void BtSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvar1ActionPerformed
-        // TODO add your handling code here:
-        //
-    }//GEN-LAST:event_BtSalvar1ActionPerformed
-
-    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        dispose();
-    }//GEN-LAST:event_BtCancelarActionPerformed
-
-    private void BtSalvar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvar1MouseClicked
-        // TODO add your handling code here:
         String Dnome = nome.getText();
         String Dtel = tel.getText();
         String Demail = email.getText();
@@ -130,8 +118,13 @@ public class DonoCadastro extends javax.swing.JFrame {
         if(Dnome!=null && Dnome!=""){
           new Donos().SalvarDono(Dnome,Dtel,Demail,DRG);
           Sucesso.setText("Salvo com Sucesso!");
-        }        
-    }//GEN-LAST:event_BtSalvar1MouseClicked
+           dispose();
+        }
+    }//GEN-LAST:event_BtSalvar1ActionPerformed
+
+    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_BtCancelarActionPerformed
 
     /**
      * @param args the command line arguments

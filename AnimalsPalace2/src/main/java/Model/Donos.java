@@ -27,7 +27,6 @@ public class Donos {
              String sql = "insert into Inicial.dbo.Cliente(CliNome,CliTel,CliEmail,CliRG) values('" + nome + "','" + telefone + "','" + email + "','"+ rg +"')";
              PreparedStatement statement = conexao.prepareStatement(sql);
              statement.execute();
-
              statement.close();
              conexao.close();
          } catch (SQLException ex) {

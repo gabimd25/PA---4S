@@ -6,6 +6,9 @@
 
 package View.Cadastro;
 import Model.Funcionarios;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Gabim
@@ -51,19 +54,20 @@ public class FuncCadastro extends javax.swing.JFrame {
 
         Tl.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Tl.setText("Telefone");
-        getContentPane().add(Tl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 90, 40));
+        getContentPane().add(Tl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 90, 30));
 
         Nm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        Nm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Nm.setText("Nome");
-        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 40));
+        getContentPane().add(Nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 70, 30));
 
         RG.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         RG.setText("RG");
-        getContentPane().add(RG, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 30, 40));
+        getContentPane().add(RG, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 30, 30));
 
         Endereco.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         Endereco.setText("Endereço");
-        getContentPane().add(Endereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 80, 40));
+        getContentPane().add(Endereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 80, 30));
 
         BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
         BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
@@ -78,11 +82,6 @@ public class FuncCadastro extends javax.swing.JFrame {
         BtSalvar1.setBackground(new java.awt.Color(204, 204, 255));
         BtSalvar1.setFont(new java.awt.Font("Baskerville Old Face", 0, 24)); // NOI18N
         BtSalvar1.setText("Salvar");
-        BtSalvar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSalvar1MouseClicked(evt);
-            }
-        });
         BtSalvar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtSalvar1ActionPerformed(evt);
@@ -91,57 +90,33 @@ public class FuncCadastro extends javax.swing.JFrame {
         getContentPane().add(BtSalvar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 110, 40));
 
         tel.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        tel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telActionPerformed(evt);
-            }
-        });
-        getContentPane().add(tel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 190, 30));
+        getContentPane().add(tel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 190, 30));
 
         end.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         end.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        getContentPane().add(end, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 390, 30));
+        getContentPane().add(end, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 390, 30));
 
         nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomeActionPerformed(evt);
-            }
-        });
-        getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 390, 30));
-        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 160, 30));
-        getContentPane().add(ct, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 280, 30));
+        getContentPane().add(nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
+        getContentPane().add(rg, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, 160, 30));
+        getContentPane().add(ct, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 280, 30));
         getContentPane().add(funcao, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 320, 30));
 
         jLabel3.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel3.setText("CT");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 189, -1, 30));
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel4.setText("Função");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
 
-        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\Desktop\\PA\\planodefundo3.png")); // NOI18N
+        Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
         getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 517, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void telActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_telActionPerformed
-
     private void BtSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvar1ActionPerformed
-        // TODO add your handling code here:
-        //
-    }//GEN-LAST:event_BtSalvar1ActionPerformed
-
-    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        dispose();
-    }//GEN-LAST:event_BtCancelarActionPerformed
-
-    private void BtSalvar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSalvar1MouseClicked
-        // TODO add your handling code here:
         String nomeFunc = nome.getText();
         String telefone = tel.getText();
         String endereco = end.getText();
@@ -151,12 +126,18 @@ public class FuncCadastro extends javax.swing.JFrame {
         if(nomeFunc!=null && nomeFunc!=""){
           new Funcionarios().SalvarFunc(nomeFunc,telefone,endereco,rgeral,carteirat,fun);
           Sucesso.setText("Salvo com Sucesso!");
-        }        
-    }//GEN-LAST:event_BtSalvar1MouseClicked
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FuncEditar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dispose();
+        }
+    }//GEN-LAST:event_BtSalvar1ActionPerformed
 
-    private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeActionPerformed
+    private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_BtCancelarActionPerformed
 
     /**
      * @param args the command line arguments
