@@ -62,7 +62,7 @@
             <Property name="text" type="java.lang.String" value="Funcion&#xe1;rio Selecionado"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
           </AuxValues>
         </Component>
       </SubComponents>

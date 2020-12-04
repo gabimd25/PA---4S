@@ -5,15 +5,8 @@
  */
 
 package View.Cadastro;
-import Model.Donos;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -22,7 +15,8 @@ import javax.swing.JOptionPane;
 public class DonoEditar extends javax.swing.JFrame {
     int IDDono;
     /** Creates new form FornCadastro */
-    public DonoEditar() {
+    public DonoEditar(int id) {
+        IDDono = id;
         initComponents();
     }
 
@@ -82,11 +76,6 @@ public class DonoEditar extends javax.swing.JFrame {
         BtCancelar.setBackground(new java.awt.Color(204, 204, 255));
         BtCancelar.setFont(new java.awt.Font("Baskerville Old Face", 0, 22)); // NOI18N
         BtCancelar.setText("Cancelar");
-        BtCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtCancelarMouseClicked(evt);
-            }
-        });
         BtCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtCancelarActionPerformed(evt);
@@ -141,17 +130,14 @@ public class DonoEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_telActionPerformed
 
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
-        // TODO add your handling code here:
-        //
+        dispose();
     }//GEN-LAST:event_BtCancelarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String excluir = "Delete from Inicial.dbo.Agenda where AgendaCliID="+IDDono+"Delete from Inicial.dbo.Pet where PetCliID="+IDDono+"\nDelete from Inicial.dbo.Cliente where CliID="+IDDono;
-            PreparedStatement statement = con.prepareStatement(excluir);
-            statement.execute();
+            conexao.Deletar(excluir);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
@@ -159,20 +145,13 @@ public class DonoEditar extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_BtExcluirActionPerformed
 
-    private void BtCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtCancelarMouseClicked
-        // TODO add your handling code here:
-        dispose();       
-    }//GEN-LAST:event_BtCancelarMouseClicked
-
     private void BtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtEditarActionPerformed
         String Tel=tel.getText(); 
         String Email=email.getText();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String editar = "UPDATE Cliente SET CliTel = '"+Tel+"', Cliemail = '"+Email+"' WHERE CliID = '"+IDDono+"'  ";
-            PreparedStatement statement = con.prepareStatement(editar);
-            statement.execute();
+            conexao.Editar(editar);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
@@ -182,14 +161,13 @@ public class DonoEditar extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
          try{
-            String Nome = nome.getText();
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Cliente WHERE CliNome = '"+Nome+"'";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            Conexao conexao = new Conexao();
+            String selecionado = "SELECT * FROM Cliente WHERE CliID = '"+IDDono+"'";
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
+                String Nome = rs.getString("CliNome");
+                nome.setText(Nome);
                 String Tel = rs.getString("CliTel");
                 tel.setText(Tel);
                 String Email = rs.getString("Cliemail");
@@ -239,7 +217,6 @@ public class DonoEditar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DonoEditar().setVisible(true);
             }
         });
     }
@@ -255,7 +232,7 @@ public class DonoEditar extends javax.swing.JFrame {
     private javax.swing.JLabel Tl;
     private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel4;
-    public static javax.swing.JTextField nome;
+    private static javax.swing.JTextField nome;
     private javax.swing.JTextField rg;
     private javax.swing.JTextField tel;
     // End of variables declaration//GEN-END:variables

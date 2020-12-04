@@ -5,20 +5,12 @@
  */
 package View;
 
+import Model.Cli;
 import View.Cadastro.DonoCadastro;
 import View.Cadastro.DonoEditar;
-import View.Cadastro.FornEditar;
 import dao.Conexao;
-import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,12 +21,13 @@ import javax.swing.table.DefaultTableModel;
 public class TelaDonos extends javax.swing.JFrame {
     ArrayList<Cli> clientes = new ArrayList<>();
     String query;
+    int ID;
     /**
      * Creates new form TelaFornecedores
      */
     public TelaDonos() {
         initComponents();
-        query= "SELECT Cliente.CliID, Cliente.CliNome, Cliente.CliTel, Cliente.CliEmail, Cliente.CliRG, Pet.PetCliID, Pet.PetNome FROM Cliente, Pet WHERE Cliente.CliID = Pet.PetCliID";
+        query= "SELECT c.CliID,c.CliNome,c.CliTel,c.CliEmail,p.PetNome,c.CliRG from Inicial.dbo.Cliente c left join Inicial.dbo.Pet p on p.PetCliID = c.CliID order by c.CliNome";
         clientes = clienteList(query);
         mostra_clientes(clientes);
     }
@@ -42,11 +35,8 @@ public class TelaDonos extends javax.swing.JFrame {
     public ArrayList<Cli> clienteList(String query4){
         ArrayList<Cli> clientesList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            //String query1 = "SELECT * FROM Cliente, Pet";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query4);
+            Conexao conexao = new Conexao();
+            ResultSet rs = conexao.Pesquisar(query4);
             Cli cliente;
             while(rs.next()){
                 cliente = new Cli(rs.getInt("CliID"), rs.getString("CliNome"), rs.getString("CliTel"), rs.getString("CliEmail"), rs.getString("PetNome"), rs.getString("CliRG"));
@@ -120,12 +110,6 @@ public class TelaDonos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(DonoSelecionado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 430, 40));
-
-        ProcuraDono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcuraDonoActionPerformed(evt);
-            }
-        });
         getContentPane().add(ProcuraDono, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 500, 50));
 
         jTabela_Mostra_Clientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -220,11 +204,6 @@ public class TelaDonos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ProcuraDonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcuraDonoActionPerformed
-        // TODO add your handling code here:
-         
-    }//GEN-LAST:event_ProcuraDonoActionPerformed
-
     private void setinhaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setinhaMousePressed
         TelaPrincipal Principal = new TelaPrincipal();
         Principal.setVisible(true);
@@ -232,21 +211,20 @@ public class TelaDonos extends javax.swing.JFrame {
     }//GEN-LAST:event_setinhaMousePressed
 
     private void lupaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMousePressed
-        query = "SELECT Cliente.CliID, Cliente.CliNome, Cliente.CliTel, Cliente.CliEmail, Cliente.CliRG, Pet.PetCliID, Pet.PetNome FROM Cliente, Pet WHERE Cliente.CliID = Pet.PetCliID AND CliNome LIKE '%"+ ProcuraDono.getText()+"%'";
+        query = "SELECT	CliID,CliNome,CliTel,CliEmail,PetNome,CliRG from Inicial.dbo.Cliente left join Inicial.dbo.Pet p on p.PetCliID = CliID WHERE CliNome LIKE '%"+ ProcuraDono.getText()+"%'";
        clientes = clienteList(query);
        mostra_clientes(clientes);
     }//GEN-LAST:event_lupaMousePressed
 
     private void AtualizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AtualizarMousePressed
-       query = "SELECT Cliente.CliID, Cliente.CliNome, Cliente.CliTel, Cliente.CliEmail, Cliente.CliRG, Pet.PetCliID, Pet.PetNome FROM Cliente, Pet WHERE Cliente.CliID = Pet.PetCliID";
+       query = "SELECT c.CliID,c.CliNome,c.CliTel,c.CliEmail,p.PetNome,c.CliRG from Inicial.dbo.Cliente c left join Inicial.dbo.Pet p on p.PetCliID = c.CliID order by c.CliNome";
        clientes = clienteList(query);
        mostra_clientes(clientes);
     }//GEN-LAST:event_AtualizarMousePressed
 
     private void EditarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMousePressed
         if(DonoSelecionado.getText()!="Cliente Selecionado"){
-           DonoEditar novo = new DonoEditar();
-           DonoEditar.nome.setText(TelaDonos.DonoSelecionado.getText());
+           DonoEditar novo = new DonoEditar(ID);
            novo.setVisible(true); 
         }
         else{
@@ -262,18 +240,10 @@ public class TelaDonos extends javax.swing.JFrame {
     private void jTabela_Mostra_ClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_ClientesMousePressed
         try{
             int row = jTabela_Mostra_Clientes.getSelectedRow();
-            String Clicar_tabela = (jTabela_Mostra_Clientes.getModel().getValueAt(row, 0).toString());
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Cliente WHERE CliID = '"+Clicar_tabela+"'  ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
-            
-            if(rs.next()){
-                String nome = rs.getString("CliNome");
-                DonoSelecionado.setText(nome);
-            }
-        
+            String id = (jTabela_Mostra_Clientes.getModel().getValueAt(row, 0).toString());
+            String nome = (jTabela_Mostra_Clientes.getModel().getValueAt(row, 1).toString());
+            ID = Integer.parseInt(id);
+            DonoSelecionado.setText(nome);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
@@ -322,7 +292,7 @@ public class TelaDonos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Atualizar;
-    public static javax.swing.JTextPane DonoSelecionado;
+    private static javax.swing.JTextPane DonoSelecionado;
     private javax.swing.JLabel Editar;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;

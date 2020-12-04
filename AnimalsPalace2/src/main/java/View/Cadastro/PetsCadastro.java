@@ -5,7 +5,7 @@
  */
 
 package View.Cadastro;
-import Model.Pets;
+import dao.Conexao;
 /**
  *
  * @author Gabim
@@ -170,11 +170,12 @@ public class PetsCadastro extends javax.swing.JFrame {
         }
         else{
             castrado='S';
-        }                
+        }
+        String query="INSERT INTO Inicial.dbo.Pet VALUES ((SELECT CliID from Inicial.dbo.Cliente WHERE CliRG='"+rgDono+"'),'"+nome+"','"+especie+"','"+raca+"','"+sexo+"','"+data+"','"+doenca+"','"+castrado+"')";
         if(nome!=""){
-          new Pets().SalvarPet(nome,especie,raca,sexo,data,doenca,castrado,rgDono);
+            Conexao conexao = new Conexao();
+            conexao.Salvar(query);
           Sucesso.setVisible(true);
-          Sucesso.setText("Salvo com Sucesso!");
           dispose();
         } 
     }//GEN-LAST:event_BtSalvar1ActionPerformed

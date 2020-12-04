@@ -5,10 +5,7 @@
  */
 
 package View.Cadastro;
-import Model.Donos;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import dao.Conexao;
 /**
  *
  * @author Gabim
@@ -115,10 +112,11 @@ public class DonoCadastro extends javax.swing.JFrame {
         String Dtel = tel.getText();
         String Demail = email.getText();
         String DRG = rg.getText();
-        if(Dnome!=null && Dnome!=""){
-          new Donos().SalvarDono(Dnome,Dtel,Demail,DRG);
-          Sucesso.setText("Salvo com Sucesso!");
-           dispose();
+        if(Dnome!=""){
+          String sql = "insert into Inicial.dbo.Cliente values('" + Dnome + "','" + Dtel + "','" + Demail + "','"+ DRG +"')";
+          Conexao conexao = new Conexao();
+          conexao.Salvar(sql);
+          dispose();
         }
     }//GEN-LAST:event_BtSalvar1ActionPerformed
 

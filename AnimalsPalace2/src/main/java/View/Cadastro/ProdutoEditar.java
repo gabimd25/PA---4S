@@ -5,16 +5,8 @@
  */
 
 package View.Cadastro;
-import Model.Donos;
-import static View.Cadastro.FornEditar.jTextField3;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -141,11 +133,9 @@ public class ProdutoEditar extends javax.swing.JFrame {
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String excluir = "Delete from Inicial.dbo.Produto where ProID="+IDProduto;
-            PreparedStatement statement = con.prepareStatement(excluir);
-            statement.execute();
+            conexao.Deletar(excluir);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
@@ -159,11 +149,9 @@ public class ProdutoEditar extends javax.swing.JFrame {
         int Quant= Integer.parseInt(quant.getText());
         float Preco = Float.parseFloat(preco.getText());
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String editar = "UPDATE Produto SET ProNome = '"+Nome+"', ProDesc = '"+Desc+"', ProQuant = "+Quant+", ProPre = "+Preco+" WHERE ProID = "+IDProduto;
-            PreparedStatement statement = con.prepareStatement(editar);
-            statement.execute();
+            conexao.Editar(editar);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
@@ -173,11 +161,9 @@ public class ProdutoEditar extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String selecionado = "SELECT ProNome,ProPre,ForNome,ProQuant,ProDesc from Inicial.dbo.Produto p inner join Inicial.dbo.Fornecedor f on p.ProForID = f.ForID WHERE ProID = '"+IDProduto+"' order by ProID";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
                 String Nome = rs.getString("ProNome");

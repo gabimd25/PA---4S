@@ -5,20 +5,10 @@
  */
 package View;
 
-import View.Cadastro.FornCadastro;
-import View.Cadastro.FornEditar;
-import static View.TelaProdutos.ProdSelecionado;
+import Model.Prod;
 import dao.Conexao;
-import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -189,10 +179,8 @@ public class TelaCompras extends javax.swing.JFrame {
     public ArrayList<Prod> prodList(String query1){
         ArrayList<Prod> prodsList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            Conexao conexao = new Conexao();
+            ResultSet rs = conexao.Pesquisar(query1);
             Prod prod;
             while(rs.next()){
                 prod = new Prod(rs.getInt("ProID"),rs.getString("ProNome"), rs.getFloat("ProPre"), rs.getString("ForNome"),rs.getInt("ProQuant"), rs.getString("ProDesc"));
@@ -262,12 +250,9 @@ public class TelaCompras extends javax.swing.JFrame {
         try{
             int row = tabela1.getSelectedRow();
             String Clicar_tabela = (tabela1.getModel().getValueAt(row, 0).toString());
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String selecionado = "SELECT ProID,ProNome,ProPre,ForNome,ProQuant,ProDesc FROM Inicial.dbo.Produto p inner join Inicial.dbo.Fornecedor f on p.ProForID = f.ForID WHERE ProID ="+Clicar_tabela+" order by p.ProID";
-            //String selecionado = "SELECT * FROM Produto WHERE ProID = '"+Clicar_tabela+"'  ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            ResultSet rs = conexao.Pesquisar(selecionado);
 
             if(rs.next()){
                 nome = rs.getString("ProNome");

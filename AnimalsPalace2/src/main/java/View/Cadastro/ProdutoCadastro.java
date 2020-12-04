@@ -5,15 +5,8 @@
  */
 
 package View.Cadastro;
-import Model.Produtos;
-import static View.Cadastro.FornEditar.jTextField3;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -121,33 +114,28 @@ public class ProdutoCadastro extends javax.swing.JFrame {
         int IDForn=0;
         try{
             String Nome = forn.getText();
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String selecionado = "SELECT * FROM Fornecedor WHERE ForNome LIKE '%"+Nome+"%'";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
                 IDForn = rs.getInt("ForID");
+            }
+            System.out.println("ID="+IDForn+"\n\n");
+            String Pnome = nome.getText();
+            String Pdesc = desc.getText();
+            int Pqtd = Integer.parseInt(qtd.getText());
+            float Ppreco = Float.parseFloat(preco.getText());
+            String query ="INSERT INTO Inicial.dbo.Produto VALUES ("+IDForn+",'"+Pnome+"','"+Pdesc+"',"+Ppreco+","+Pqtd+")";
+            if(!"".equals(Pnome) && IDForn!=0){
+               conexao.Salvar(query);
             }
         
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
             System.out.println("\nExcecao!!\n");
         }
-        System.out.println("ID="+IDForn+"\n\n");
-        String Pnome = nome.getText();
-        String Pdesc = desc.getText();
-        //String pForn = forn.getText();
-        int Pqtd = Integer.parseInt(qtd.getText());
-        float Ppreco = Float.parseFloat(preco.getText());
-        
-        if(!"".equals(Pnome) && IDForn!=0){
-          new Produtos().SalvarProd(IDForn,Pnome,Pdesc,Ppreco,Pqtd);
-          Sucesso.setText("Salvo com Sucesso!");
-          
-           dispose();
-        }
+        dispose();
     }//GEN-LAST:event_BtSalvar1ActionPerformed
 
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed

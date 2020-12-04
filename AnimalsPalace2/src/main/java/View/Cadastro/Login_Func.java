@@ -5,7 +5,6 @@
  */
 
 package View.Cadastro;
-import Model.Fornecedores;
 import View.TelaFuncionarios;
 /**
  *

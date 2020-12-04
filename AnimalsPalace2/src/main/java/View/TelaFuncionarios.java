@@ -5,19 +5,12 @@
  */
 package View;
 
-import View.Cadastro.DonoCadastro;
+import Model.Func;
 import View.Cadastro.FuncCadastro;
 import View.Cadastro.FuncEditar;
 import dao.Conexao;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaFuncionarios extends javax.swing.JFrame {
     ArrayList<Func> funcionarios = new ArrayList<>();
     String query;
+    int ID;
     /**
      * Creates new form TelaFornecedores
      */
@@ -41,10 +35,8 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     public ArrayList<Func> funcList(String query2){
         ArrayList<Func> funcsList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query2);
+            Conexao conexao = new Conexao();
+            ResultSet rs = conexao.Pesquisar(query2);
             Func func;
             while(rs.next()){
                 func = new Func(rs.getInt("FunID"), rs.getString("FunNome"), rs.getString("FunTel"), rs.getString("FunRG"), rs.getString("FunEnd"), rs.getString("FunCT"), rs.getString("FunFun"));
@@ -243,9 +235,8 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
     private void EditarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditarMousePressed
         if(FuncSelecionado.getText()!="Funcionario Selecionado"){
-           FuncEditar novo = new FuncEditar();
-           FuncEditar.nome.setText(TelaFuncionarios.FuncSelecionado.getText());
-            novo.setVisible(true); 
+           FuncEditar novo = new FuncEditar(ID);
+           novo.setVisible(true); 
         }
         else{
             System.out.println("Escolha um funcionario!");
@@ -261,18 +252,10 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private void jTabela_Mostra_FuncMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabela_Mostra_FuncMousePressed
         try{
             int row = jTabela_Mostra_Func.getSelectedRow();
-            String Clicar_tabela = (jTabela_Mostra_Func.getModel().getValueAt(row, 0).toString());
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Funcionario WHERE FunID = '"+Clicar_tabela+"'  ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
-            
-            if(rs.next()){
-                String nome = rs.getString("FunNome");
-                FuncSelecionado.setText(nome);
-            }
-        
+            String id = (jTabela_Mostra_Func.getModel().getValueAt(row, 0).toString());
+            String nome = (jTabela_Mostra_Func.getModel().getValueAt(row, 1).toString());
+            FuncSelecionado.setText(nome);
+            ID = Integer.parseInt(id);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
@@ -322,7 +305,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Atualizar;
     private javax.swing.JLabel Editar;
-    public static javax.swing.JTextPane FuncSelecionado;
+    private static javax.swing.JTextPane FuncSelecionado;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Novo;
     private javax.swing.JTextField ProcuraFunc;

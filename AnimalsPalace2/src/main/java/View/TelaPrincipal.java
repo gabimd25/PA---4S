@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Agen;
 import View.Cadastro.Login_Func;
 import dao.Conexao;
 import java.awt.Color;
@@ -45,7 +46,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String query3 = "SELECT Agenda.AgendaDia, Agenda.AgendaHora, Agenda.AgendaCliID, Agenda.AgendaPetID, Agenda.Servico, Cliente.CliID, Cliente.CliNome, Pet.PetCliID, Pet.PetNome FROM Agenda, Cliente, Pet WHERE Agenda.AgendaCliID = Cliente.CliID AND Agenda.AgendaPetID = Pet.PetCliID";
+            String query3 = "SELECT Agenda.AgendaDia, Agenda.AgendaHora, Agenda.AgendaCliID, Agenda.AgendaPetID, Agenda.Servico, Cliente.CliID, Cliente.CliNome, Pet.PetCliID, Pet.PetNome FROM Agenda, Cliente, Pet WHERE Agenda.AgendaCliID = Cliente.CliID AND Agenda.AgendaPetID = Pet.PetID";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query3);
             Agen agenda;

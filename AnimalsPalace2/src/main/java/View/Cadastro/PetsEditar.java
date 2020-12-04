@@ -5,13 +5,8 @@
  */
 
 package View.Cadastro;
-import Model.Pets;
-import static View.Cadastro.FornEditar.jTextField3;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 /**
  *
@@ -198,9 +193,11 @@ public class PetsEditar extends javax.swing.JFrame {
         }
         else{
             castrado='S';
-        }                
+        }           
+        String query="UPDATE Inicial.dbo.Pet SET PetSexo ='"+sexo+"', PetCast='"+castrado+"', Petraca='"+raca+"', PetDoen='"+doenca+"', PetData='"+data+"' WHERE PetID="+PetID;
         if(nome!=""){
-          new Pets().EditarPet(PetID,raca,sexo,data,doenca,castrado);
+           Conexao conexao  = new Conexao();
+          conexao.Editar(query);
           Sucesso.setVisible(true);
           Sucesso.setText("Salvo com Sucesso!");
           dispose();
@@ -209,11 +206,9 @@ public class PetsEditar extends javax.swing.JFrame {
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao  = new Conexao();
             String excluir = "Delete from Inicial.dbo.Agenda where AgendaPetID="+PetID+"Delete from Inicial.dbo.Pet where PetID="+PetID;
-            PreparedStatement statement = con.prepareStatement(excluir);
-            statement.execute();
+            conexao.Deletar(excluir);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
@@ -227,11 +222,9 @@ public class PetsEditar extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao  = new Conexao();
             String selecionado = "SELECT * FROM Pet WHERE PetID = '"+PetID+"'";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
                 String nome = rs.getString("PetNome");
@@ -256,11 +249,10 @@ public class PetsEditar extends javax.swing.JFrame {
                     Sexo.setSelectedItem("Fêmea");
                 }                
             }
-            selecionado = "SELECT * FROM Cliente WHERE CliID = '"+CliID+"'";
-            st = con.createStatement();
-            rs = st.executeQuery(selecionado);
+            selecionado = "SELECT * FROM Cliente WHERE CliID ="+CliID+"";
+            rs = conexao.Pesquisar(selecionado);
             if(rs.next()){
-                String rg= rs.getString("CliRG");
+                String rg = rs.getString("CliRG");
                 RG.setText(rg);
             }
         

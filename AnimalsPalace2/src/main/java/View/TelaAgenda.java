@@ -5,19 +5,12 @@
  */
 package View;
 
+import Model.Agen;
 import View.Cadastro.AgendaCadastro;
 import View.Cadastro.AgendaEditar;
 import dao.Conexao;
-import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,11 +31,9 @@ public class TelaAgenda extends javax.swing.JFrame {
    public ArrayList<Agen> agenList(){
         ArrayList<Agen> agendaList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String query3 = "SELECT Agenda.AgendaDia, Agenda.AgendaHora, Agenda.AgendaCliID, Agenda.AgendaPetID, Agenda.Servico, Cliente.CliID, Cliente.CliNome, Pet.PetCliID, Pet.PetNome FROM Agenda, Cliente, Pet WHERE Agenda.AgendaCliID = Cliente.CliID AND Agenda.AgendaPetID = Pet.PetCliID";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query3);
+            Conexao conexao = new Conexao();
+            String query3 = "SELECT Agenda.AgendaDia, Agenda.AgendaHora, Agenda.AgendaCliID, Agenda.AgendaPetID, Agenda.Servico, Cliente.CliID, Cliente.CliNome, Pet.PetCliID, Pet.PetNome FROM Agenda, Cliente, Pet WHERE Agenda.AgendaCliID = Cliente.CliID AND Agenda.AgendaPetID = Pet.PetID";
+            ResultSet rs = conexao.Pesquisar(query3);
             Agen agenda;
             while(rs.next()){
                 agenda = new Agen(rs.getString("AgendaDia"), rs.getString("AgendaHora"), rs.getString("CliNome"), rs.getString("PetNome"),  rs.getString("Servico"));

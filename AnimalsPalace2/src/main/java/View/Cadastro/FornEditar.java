@@ -5,16 +5,8 @@
  */
 
 package View.Cadastro;
-import View.TelaFornecedores;
-//import View.TelaFornecedores.FornSelecionado;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,10 +14,11 @@ import javax.swing.JOptionPane;
  * @author Gabim
  */
 public class FornEditar extends javax.swing.JFrame {
-
     int IDFornecedor;
     /** Creates new form FornCadastro */
-    public FornEditar() {
+    public FornEditar(int id) {
+        IDFornecedor = id;
+        System.out.println("IDinit = "+id);
         initComponents();
     }
 
@@ -134,11 +127,9 @@ public class FornEditar extends javax.swing.JFrame {
         String tel=jTextField1.getText(); 
         String email=jTextField2.getText();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String editar = "UPDATE Fornecedor SET ForNome = '"+nome+"', ForTel = '"+tel+"', Foremail = '"+email+"' WHERE ForID = '"+IDFornecedor+"'  ";
-            PreparedStatement statement = con.prepareStatement(editar);
-            statement.execute();
+            conexao.Editar(editar);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
@@ -148,20 +139,16 @@ public class FornEditar extends javax.swing.JFrame {
 
     private void BExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BExcluirActionPerformed
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String excluir = "Delete from Inicial.dbo.Produto where ProForID="+IDFornecedor+"\nDelete from Inicial.dbo.Fornecedor where ForID="+IDFornecedor;
-            PreparedStatement statement = con.prepareStatement(excluir);
-            statement.execute();
+            conexao.Deletar(excluir);
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
         }
         dispose();
     }//GEN-LAST:event_BExcluirActionPerformed
-
-   
-    
+  
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
         dispose();
     }//GEN-LAST:event_CancelarActionPerformed
@@ -169,20 +156,21 @@ public class FornEditar extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
          try{
-            String Nome = jTextField3.getText();
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Fornecedor WHERE ForNome = '"+Nome+"'";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
-            
+            String selecionado = "SELECT * FROM Fornecedor WHERE ForID = '"+IDFornecedor+"'";
+            System.out.println("IDForm = "+IDFornecedor);
+            Conexao con = new Conexao();
+            ResultSet rs = con.Pesquisar(selecionado);
+            System.out.println("Aqui foi? = \n");
             if(rs.next()){
+                String nome = rs.getString("ForNome");
+                jTextField3.setText(nome);
                 String tel = rs.getString("ForTel");
                 jTextField1.setText(tel);
                 String email = rs.getString("Foremail");
                 jTextField2.setText(email);
                 int id = rs.getInt("ForID");
                 IDFornecedor = id;
+                System.out.println("IDForm = "+id);
             }
         
         }catch(Exception e){
@@ -226,7 +214,6 @@ public class FornEditar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FornEditar().setVisible(true);
             }
         });
     }
@@ -241,7 +228,7 @@ public class FornEditar extends javax.swing.JFrame {
     private javax.swing.JLabel Tl;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    public static javax.swing.JTextField jTextField3;
+    private static javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
 }

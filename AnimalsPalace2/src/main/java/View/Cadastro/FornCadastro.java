@@ -5,16 +5,12 @@
  */
 
 package View.Cadastro;
-import Model.Fornecedores;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import dao.Conexao;
 /**
  *
  * @author Gabim
  */
 public class FornCadastro extends javax.swing.JFrame {
-
     /** Creates new form FornCadastro */
     public FornCadastro() {
         initComponents();
@@ -75,11 +71,6 @@ public class FornCadastro extends javax.swing.JFrame {
         getContentPane().add(BtSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 110, 40));
 
         Telefone.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Telefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TelefoneActionPerformed(evt);
-            }
-        });
         getContentPane().add(Telefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 190, 30));
 
         Email.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -87,11 +78,6 @@ public class FornCadastro extends javax.swing.JFrame {
         getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 390, 30));
 
         Nome.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        Nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NomeActionPerformed(evt);
-            }
-        });
         getContentPane().add(Nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 390, 30));
 
         Fundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\planodefundo3.png")); // NOI18N
@@ -100,25 +86,19 @@ public class FornCadastro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TelefoneActionPerformed
-
     private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
         String nome = Nome.getText();
         String tel=Telefone.getText();
         String email=Email.getText();
-        new Fornecedores().SalvarForn(nome,tel,email);
+        String query = "INSERT INTO Inicial.dbo.Fornecedor VALUES ('"+nome+"','"+tel+"','"+email+"')";
+        Conexao conexao = new Conexao();
+        conexao.Salvar(query);
         dispose();
     }//GEN-LAST:event_BtSalvarActionPerformed
 
     private void BtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSairActionPerformed
         dispose();
     }//GEN-LAST:event_BtSairActionPerformed
-
-    private void NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NomeActionPerformed
 
     /**
      * @param args the command line arguments

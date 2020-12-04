@@ -5,11 +5,8 @@
  */
 package View;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import Model.Prod;
+import dao.Conexao;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaCarrinho extends javax.swing.JFrame {
     private ArrayList<Prod> listaProdutos = new ArrayList<>();
     float totalItem,Total;
-    int IDProduto,tamanho;
+    int IDProduto,tamanho,row=-1;
     /**
      * Creates new form TelaAgenda
      */
@@ -41,7 +38,6 @@ public class TelaCarrinho extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Excluir = new javax.swing.JLabel();
         TotalCompra = new javax.swing.JTextField();
         Finalizar = new javax.swing.JLabel();
         Cancelar = new javax.swing.JLabel();
@@ -49,7 +45,6 @@ public class TelaCarrinho extends javax.swing.JFrame {
         Itens = new javax.swing.JLabel();
         setinha = new javax.swing.JLabel();
         BtEditar = new javax.swing.JLabel();
-        BtCancelar1 = new javax.swing.JLabel();
         BtCancelar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -57,16 +52,6 @@ public class TelaCarrinho extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Excluir.setFont(new java.awt.Font("Brush Script MT", 0, 34)); // NOI18N
-        Excluir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Excluir.setText("Excluir");
-        Excluir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                ExcluirMousePressed(evt);
-            }
-        });
-        getContentPane().add(Excluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 540, 120, 60));
 
         TotalCompra.setEditable(false);
         TotalCompra.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
@@ -91,7 +76,7 @@ public class TelaCarrinho extends javax.swing.JFrame {
                 CancelarMousePressed(evt);
             }
         });
-        getContentPane().add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, 120, 60));
+        getContentPane().add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 540, 120, 60));
 
         Valor.setFont(new java.awt.Font("Baskerville Old Face", 0, 42)); // NOI18N
         Valor.setText("Total:");
@@ -114,15 +99,10 @@ public class TelaCarrinho extends javax.swing.JFrame {
         BtEditar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(BtEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 520, 260, 100));
 
-        BtCancelar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        BtCancelar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
-        BtCancelar1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 530, 140, 80));
-
         BtCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         BtCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Gabim\\OneDrive\\Área de Trabalho\\PA\\PA---4S-master\\AnimalsPalace\\src\\main\\java\\imagens\\botao2.png")); // NOI18N
         BtCancelar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 530, 140, 80));
+        getContentPane().add(BtCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 530, 140, 80));
 
         jTable1.setFont(new java.awt.Font("Baskerville Old Face", 0, 20)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -150,27 +130,19 @@ public class TelaCarrinho extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
-        int row = jTable1.getSelectedRow();
+        row = jTable1.getSelectedRow();
     }//GEN-LAST:event_jTable1MousePressed
 
     private void CancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelarMousePressed
         dispose();
     }//GEN-LAST:event_CancelarMousePressed
 
-    private void ExcluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExcluirMousePressed
-        int excluir = jTable1.getSelectedRow();
-        listaProdutos.remove(excluir);
-        tamanho--;
-        mostra_prod(listaProdutos);
-    }//GEN-LAST:event_ExcluirMousePressed
-
     private void FinalizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FinalizarMousePressed
         String query,produ,quant;
         int quantidade;
         ArrayList<Prod> list = listaProdutos;
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             System.out.println("Tam: "+tamanho);
             for(int j=0; j<tamanho; j++){
                 produ = (jTable1.getModel().getValueAt(j, 0).toString());
@@ -179,8 +151,7 @@ public class TelaCarrinho extends javax.swing.JFrame {
                 quantidade=Integer.parseInt(quant);
                 System.out.println("ID: "+IDProduto);
                 query="UPDATE Inicial.dbo.Produto SET ProQuant =((SELECT ProQuant from Inicial.dbo.Produto WHERE ProID="+IDProduto+")-"+quantidade+") WHERE ProID="+IDProduto;
-                PreparedStatement statement = con.prepareStatement(query);
-                statement.execute();
+                conexao.Editar(query);
             }
             dispose();
         }
@@ -196,12 +167,12 @@ public class TelaCarrinho extends javax.swing.JFrame {
     }//GEN-LAST:event_setinhaMousePressed
 
     public void mostra_prod(ArrayList<Prod> produtos){
-        ArrayList<Prod> list = listaProdutos;
+        ArrayList<Prod> list = produtos;
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[6];
+        Object[] row = new Object[5];
         Total=0;
-        for(int i=0; i<listaProdutos.size(); i++){
+        for(int i=0; i<produtos.size(); i++){
             row[0] = list.get(i).getProID();
             row[1] = list.get(i).getProNome();
             row[2] = "R$ "+list.get(i).getProPre();
@@ -252,10 +223,8 @@ public class TelaCarrinho extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtCancelar;
-    private javax.swing.JLabel BtCancelar1;
     private javax.swing.JLabel BtEditar;
     private javax.swing.JLabel Cancelar;
-    private javax.swing.JLabel Excluir;
     private javax.swing.JLabel Finalizar;
     private javax.swing.JLabel Fundo;
     private javax.swing.JLabel Itens;

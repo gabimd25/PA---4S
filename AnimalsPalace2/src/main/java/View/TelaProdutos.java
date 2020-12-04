@@ -5,19 +5,12 @@
  */
 package View;
 
+import Model.Prod;
 import View.Cadastro.ProdutoCadastro;
 import View.Cadastro.ProdutoEditar;
 import dao.Conexao;
-import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -196,10 +189,8 @@ public class TelaProdutos extends javax.swing.JFrame {
     public ArrayList<Prod> prodList(String query1){
         ArrayList<Prod> prodsList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            Conexao conexao = new Conexao();
+            ResultSet rs = conexao.Pesquisar(query1);
             Prod prod;
             while(rs.next()){
                 prod = new Prod(rs.getInt("ProID"),rs.getString("ProNome"), rs.getFloat("ProPre"), rs.getString("ForNome"),rs.getInt("ProQuant"), rs.getString("ProDesc"));
@@ -267,19 +258,9 @@ public class TelaProdutos extends javax.swing.JFrame {
     private void tabelaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMousePressed
         try{
             int row = tabela.getSelectedRow();
-            String Clicar_tabela = (tabela.getModel().getValueAt(row, 0).toString());
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Produto WHERE ProID = '"+Clicar_tabela+"'  ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
-            
-            if(rs.next()){
-                String nome = rs.getString("ProNome");
-                ProdSelecionado.setText(nome);
-                IDProduto= rs.getInt("ProID");
-            }
-        
+            String id = (tabela.getModel().getValueAt(row, 0).toString());
+            String nome = (tabela.getModel().getValueAt(row, 0).toString());
+            IDProduto = Integer.parseInt(id);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }

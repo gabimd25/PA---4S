@@ -5,10 +5,7 @@
  */
 
 package View.Cadastro;
-import Model.Funcionarios;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import dao.Conexao;
 /**
  *
  * @author Gabim
@@ -123,14 +120,10 @@ public class FuncCadastro extends javax.swing.JFrame {
         String carteirat = ct.getText();
         String rgeral = rg.getText();
         String fun = funcao.getText();
-        if(nomeFunc!=null && nomeFunc!=""){
-          new Funcionarios().SalvarFunc(nomeFunc,telefone,endereco,rgeral,carteirat,fun);
-          Sucesso.setText("Salvo com Sucesso!");
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FuncEditar.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        String query="INSERT INTO Inicial.dbo.Funcionario VALUES('"+nomeFunc+"','"+telefone+"','"+rgeral+"','"+endereco+"','"+carteirat+"','"+fun+"')";
+        if(nomeFunc!=""){
+            Conexao conexao = new Conexao();
+            conexao.Salvar(query);
             dispose();
         }
     }//GEN-LAST:event_BtSalvar1ActionPerformed

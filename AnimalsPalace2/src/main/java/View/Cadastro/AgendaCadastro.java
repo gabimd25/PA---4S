@@ -6,14 +6,8 @@
 
 package View.Cadastro;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -142,11 +136,9 @@ public class AgendaCadastro extends javax.swing.JFrame {
         String servico = serv.getText();
         int idPet = 0,idDono = 0;
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String selecionado = "SELECT PetID,PetNome,PetCliID FROM Inicial.dbo.Pet WHERE PetCliID = (SELECT CliID FROM Inicial.dbo.Cliente WHERE CliRG = '"+rg+"') AND PetNome LIKE '%"+nomePet+"%'" ;
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
                 idPet = rs.getInt("PetID");
@@ -158,13 +150,9 @@ public class AgendaCadastro extends javax.swing.JFrame {
         }
         if(idPet!=0){
             try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con2 = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado2 = "INSERT INTO Inicial.dbo.Agenda VALUES ('"+Dia+"','"+horario+"',"+idDono+","+idPet+",'"+servico+"')" ;
-            PreparedStatement statement = con2.prepareStatement(selecionado2);
-             statement.execute();
-             statement.close();
-             con2.close();
+                Conexao conexao = new Conexao();
+                String selecionado2 = "INSERT INTO Inicial.dbo.Agenda VALUES ('"+Dia+"','"+horario+"',"+idDono+","+idPet+",'"+servico+"')" ;
+                conexao.Salvar(selecionado2);
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null,e);
             }

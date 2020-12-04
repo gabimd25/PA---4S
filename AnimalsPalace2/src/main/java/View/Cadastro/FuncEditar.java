@@ -5,15 +5,8 @@
  */
 
 package View.Cadastro;
-import Model.Funcionarios;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import dao.Conexao;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -23,7 +16,8 @@ public class FuncEditar extends javax.swing.JFrame {
     
     int IDFuncionario;
     /** Creates new form FornCadastro */
-    public FuncEditar() {
+    public FuncEditar(int id) {
+        IDFuncionario = id;
         initComponents();
     }
 
@@ -158,25 +152,24 @@ public class FuncEditar extends javax.swing.JFrame {
         String endereco = end.getText();
         String rgeral = rg.getText();
         String fun = funcao.getText();
-        new Funcionarios().EditarFunc(telefone,endereco,rgeral,fun);
-        Sucesso.setText("Salvo com Sucesso!");
+        String query="UPDATE  Inicial.dbo.Funcionario\n" +
+"SET FunTel= '"+telefone+"', FunEnd = '"+endereco+"', FunFun = '"+fun+"'\n" +
+"WHERE FunID="+IDFuncionario;
+        Conexao conexao = new Conexao();
+        conexao.Editar(query);
         dispose();
     }//GEN-LAST:event_BtEditarActionPerformed
 
     private void BtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExcluirActionPerformed
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String excluir = "Delete from Inicial.dbo.Funcionario where FunID="+IDFuncionario;
-            PreparedStatement statement = con.prepareStatement(excluir);
-            statement.execute();
+            conexao.Deletar(excluir);
             dispose();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e); 
         }
-        Sucesso.setText("Deletado com Sucesso!");
-       
     }//GEN-LAST:event_BtExcluirActionPerformed
 
     private void BtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCancelarActionPerformed
@@ -185,14 +178,13 @@ public class FuncEditar extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try{
-            String Nome = nome.getText();
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            String selecionado = "SELECT * FROM Funcionario WHERE FunNome = '"+Nome+"'";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            Conexao conexao = new Conexao();
+            String selecionado = "SELECT * FROM Funcionario WHERE FunID ="+IDFuncionario;
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
+                String Nome = rs.getString("FunNome");
+                nome.setText(Nome);
                 String telefone = rs.getString("FunTel");
                 tel.setText(telefone);
                 String RG = rs.getString("FunRG");
@@ -245,7 +237,6 @@ public class FuncEditar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FuncEditar().setVisible(true);
             }
         });
     }
@@ -265,7 +256,7 @@ public class FuncEditar extends javax.swing.JFrame {
     private javax.swing.JTextField funcao;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    public static javax.swing.JTextField nome;
+    private static javax.swing.JTextField nome;
     private javax.swing.JTextField rg;
     private javax.swing.JTextField tel;
     // End of variables declaration//GEN-END:variables

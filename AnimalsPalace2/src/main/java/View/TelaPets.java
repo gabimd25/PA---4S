@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Pet;
 import View.Cadastro.PetsCadastro;
 import View.Cadastro.PetsEditar;
 import dao.Conexao;
@@ -34,7 +35,7 @@ public class TelaPets extends javax.swing.JFrame {
      */
     public TelaPets() {
         initComponents();
-        query = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
+        query = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Pet.PetDoen, Pet.PetCast, Pet.PetData, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
         pets = petList(query);
         mostra_pets(pets);
     }
@@ -42,13 +43,11 @@ public class TelaPets extends javax.swing.JFrame {
     public ArrayList<Pet> petList(String query5){
         ArrayList<Pet> petsList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query5);
+            Conexao conexao = new Conexao();
+            ResultSet rs = conexao.Pesquisar(query5);
             Pet pets;
             while(rs.next()){
-                pets = new Pet(rs.getInt("PetID"), rs.getString("PetNome"), rs.getString("PetEsp"), rs.getString("Petraca"), rs.getString("PetSexo"), rs.getString("CliNome"));
+                pets = new Pet(rs.getInt("PetID"), rs.getString("PetNome"), rs.getString("PetEsp"), rs.getString("Petraca"), rs.getString("PetSexo"), rs.getString("CliNome"),rs.getString("PetDoen"),rs.getString("PetCast"),rs.getString("PetData"));
                 petsList.add(pets);
             }
         }
@@ -63,7 +62,7 @@ public class TelaPets extends javax.swing.JFrame {
         ArrayList<Pet> list = pets;
         DefaultTableModel model = (DefaultTableModel)jTabela_Mostra_Pets.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[6];
+        Object[] row = new Object[9];
         for(int i=0; i<list.size(); i++){
             row[0] = list.get(i).getPetID();
             row[1] = list.get(i).getPetNome();
@@ -71,6 +70,9 @@ public class TelaPets extends javax.swing.JFrame {
             row[3] = list.get(i).getPetraca();
             row[4] = list.get(i).getPetSexo();
             row[5] = list.get(i).getCliNome();
+            row[6] = list.get(i).getPetDoen();
+            row[7] = list.get(i).getPetCast();
+            row[8] = list.get(i).getPetData();
             model.addRow(row);
         }
     }
@@ -133,14 +135,14 @@ public class TelaPets extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome", "Espécie", "Raça", "Sexo", "Dono"
+                "ID", "Nome", "Espécie", "Raça", "Sexo", "Dono", "Doença", "Castrado", "Dt Nasc."
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -232,13 +234,13 @@ public class TelaPets extends javax.swing.JFrame {
     }//GEN-LAST:event_setinhaMousePressed
 
     private void lupaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lupaMousePressed
-       query="SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID AND PetNome LIKE '%"+ProcuraPet.getText()+"%'";
+       query="SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Pet.PetDoen, Pet.PetCast, Pet.PetData, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID AND PetNome LIKE '%"+ProcuraPet.getText()+"%'";
        pets = petList(query);
        mostra_pets(pets);
     }//GEN-LAST:event_lupaMousePressed
 
     private void AtualizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AtualizarMousePressed
-        query = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
+        query = "SELECT Pet.PetID, Pet.PetCliID, Pet.PetNome, Pet.PetEsp, Pet.Petraca, Pet.PetSexo, Cliente.CliNome, Cliente.CliID, Pet.PetDoen, Pet.PetCast, Pet.PetData FROM Pet, Cliente WHERE Pet.PetCliID = Cliente.CliID ";
        pets = petList(query);
        mostra_pets(pets);
     }//GEN-LAST:event_AtualizarMousePressed
@@ -249,7 +251,7 @@ public class TelaPets extends javax.swing.JFrame {
            novo.setVisible(true); 
         }
         else{
-            System.out.println("Escolha um fornecedor!");
+            System.out.println("Escolha um Pet!");
         }
     }//GEN-LAST:event_EditarMousePressed
 
@@ -262,11 +264,9 @@ public class TelaPets extends javax.swing.JFrame {
         try{
             int row = jTabela_Mostra_Pets.getSelectedRow();
             String Clicar_tabela = (jTabela_Mostra_Pets.getModel().getValueAt(row, 0).toString());
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Inicial;user=pets;password=123");
+            Conexao conexao = new Conexao();
             String selecionado = "SELECT * FROM Pet WHERE PetID = '"+Clicar_tabela+"'  ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selecionado);
+            ResultSet rs = conexao.Pesquisar(selecionado);
             
             if(rs.next()){
                 String nome = rs.getString("PetNome");
