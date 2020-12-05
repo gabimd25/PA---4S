@@ -143,16 +143,16 @@ public class TelaCarrinho extends javax.swing.JFrame {
         ArrayList<Prod> list = listaProdutos;
         try{
             Conexao conexao = new Conexao();
-            System.out.println("Tam: "+tamanho);
             for(int j=0; j<tamanho; j++){
                 produ = (jTable1.getModel().getValueAt(j, 0).toString());
                 IDProduto= Integer.parseInt(produ);
                 quant= (jTable1.getModel().getValueAt(j, 3).toString());
                 quantidade=Integer.parseInt(quant);
-                System.out.println("ID: "+IDProduto);
                 query="UPDATE Inicial.dbo.Produto SET ProQuant =((SELECT ProQuant from Inicial.dbo.Produto WHERE ProID="+IDProduto+")-"+quantidade+") WHERE ProID="+IDProduto;
                 conexao.Editar(query);
             }
+            TelaCompras novo = new TelaCompras();
+            novo.setVisible(true);
             dispose();
         }
         catch(Exception e){

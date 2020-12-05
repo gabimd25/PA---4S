@@ -259,8 +259,9 @@ public class TelaProdutos extends javax.swing.JFrame {
         try{
             int row = tabela.getSelectedRow();
             String id = (tabela.getModel().getValueAt(row, 0).toString());
-            String nome = (tabela.getModel().getValueAt(row, 0).toString());
+            String nome = (tabela.getModel().getValueAt(row, 1).toString());
             IDProduto = Integer.parseInt(id);
+            ProdSelecionado.setText(nome);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }

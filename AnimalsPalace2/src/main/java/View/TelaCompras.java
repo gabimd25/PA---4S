@@ -244,6 +244,7 @@ public class TelaCompras extends javax.swing.JFrame {
         TelaCarrinho novo = new TelaCarrinho(prodsSelecionados);
         novo.setVisible(true);
         prodsSelecionados.clear();
+        dispose();
     }//GEN-LAST:event_FinalizarMousePressed
 
     private void tabela1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabela1MousePressed
